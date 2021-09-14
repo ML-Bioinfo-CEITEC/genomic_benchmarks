@@ -1,0 +1,8 @@
+classes:
+  coding_seqs:
+    type: fa.gz
+    url: http://ftp.ensembl.org/pub/release-104/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz
+  intergenomic_seqs:
+    type: fa.gz
+    url: http://ftp.ensembl.org/pub/release-104/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.gz
+version: 0
