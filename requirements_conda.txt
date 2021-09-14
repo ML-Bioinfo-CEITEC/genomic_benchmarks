@@ -1,0 +1,40 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+_libgcc_mutex=0.1=conda_forge
+_openmp_mutex=4.5=1_gnu
+blas=1.0=mkl
+ca-certificates=2021.5.30=ha878542_0
+cffi=1.14.6=py38ha65f79e_0
+cudatoolkit=11.1.1=h6406543_8
+future=0.18.2=py38h578d9bd_3
+intel-openmp=2021.3.0=h06a4308_3350
+ld_impl_linux-64=2.36.1=hea4e1c9_2
+libblas=3.9.0=11_linux64_mkl
+libcblas=3.9.0=11_linux64_mkl
+libffi=3.3=h58526e2_2
+libgcc-ng=11.1.0=hc902ee8_8
+libgomp=11.1.0=hc902ee8_8
+liblapack=3.9.0=11_linux64_mkl
+libprotobuf=3.16.0=h780b84a_0
+libstdcxx-ng=11.1.0=h56837e0_8
+libuv=1.42.0=h7f98852_0
+mkl=2021.3.0=h06a4308_520
+ncurses=6.2=h58526e2_4
+ninja=1.10.2=h4bd325d_0
+numpy=1.21.2=py38he2449b9_0
+openssl=1.1.1l=h7f98852_0
+pip=21.2.4=pyhd8ed1ab_0
+pycparser=2.20=pyh9f0ad1d_2
+python=3.8.10=h49503c6_1_cpython
+python_abi=3.8=2_cp38
+pytorch=1.9.0=py3.8_cuda11.1_cudnn8.0.5_0
+readline=8.1=h46c0cb4_0
+setuptools=58.0.4=py38h578d9bd_0
+sleef=3.5.1=h7f98852_1
+sqlite=3.36.0=h9cd32fc_1
+tk=8.6.11=h27826a3_1
+typing_extensions=3.10.0.0=pyha770c72_0
+wheel=0.37.0=pyhd8ed1ab_1
+xz=5.2.5=h516909a_1
+zlib=1.2.11=h516909a_1010
