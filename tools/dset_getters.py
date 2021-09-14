@@ -30,7 +30,7 @@ class dummy_dset(Dataset):
 class cvsi_dset(Dataset):
     def __init__(self, datatype):
         #TODO parametrize path
-        path = Path()/'datasets'/'demo_coding_vs_intergenomic_seqs'/'train'/'coding_seqs.csv'
+        path = Path('../datasets/demo_coding_vs_intergenomic_seqs/train/coding_seqs.csv')
         self.df = pd.read_csv(path)
 
     def __len__(self):
