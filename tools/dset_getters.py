@@ -28,10 +28,24 @@ class dummy_dset(Dataset):
 
 
 class cvsi_dset(Dataset):
-    def __init__(self, datatype):
+    def __init__(self, split):
         #TODO parametrize path
-        path = Path('../datasets/demo_coding_vs_intergenomic_seqs/train/coding_seqs.csv')
-        self.df = pd.read_csv(path)
+        if(split == 'train'):
+          c_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/train/coding_seqs.csv')
+          i_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/train/intergenomic_seqs.csv')
+
+        if(split == 'test'):
+          c_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/test/coding_seqs.csv')
+          i_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/test/intergenomic_seqs.csv')
+
+
+        coding_df = pd.read_csv(c_path)
+        intergenomic_df = pd.read_csv(i_path)
+        # path = Path('../datasets/demo_coding_vs_intergenomic_seqs/train/coding_seqs.csv')
+        self.df = pd.concat([coding_df, intergenomic_df])
+        # print(len(coding_df))
+        # print(len(intergenomic_df))
+        # print(len(self.df))
 
     def __len__(self):
         return self.df.size
@@ -41,8 +55,10 @@ class cvsi_dset(Dataset):
         start = row['start']
         end = row['end']
         length = end-start
+        # length = 100
+        print('L:',length)
         dummy_seq = np.random.randint(low=0, high=4, size=length)
         dummy_label = 0
-        x = torch.tensor(dummy_seq).to('cuda')
-        y = torch.tensor(dummy_label).to('cuda')
+        x = torch.tensor(dummy_seq, dtype=torch.float32).to('cuda')
+        y = torch.tensor(dummy_label, dtype=torch.float32).to('cuda')
         return x,y
