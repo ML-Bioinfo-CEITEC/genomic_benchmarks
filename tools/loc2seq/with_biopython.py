@@ -14,16 +14,18 @@ CACHE_PATH = Path.home() / '.genomic_benchmarks'
 REF_CACHE_PATH = CACHE_PATH / 'fasta'
 
 
-def create_seq_genomic_dataset(interval_list_dataset, dest_path=".", cache_path=REF_CACHE_PATH, force_download=False):
+def create_seq_genomic_dataset(interval_list_dataset, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
     '''
     From an interval-list genomic dataset creates full-seq genomic dataset.
 
             Parameters:
                     interval_list_dataset (str or Path): Either a path or a name of dataset included in this package.
-
+                    dest_path (str or Path): Folder to store the full-seq dataset.
+                    cache_path (str or Path): Folder to store the downloaded references.
+                    force_download (bool): If True, force downloading of references.
 
             Returns:
-                    seq_dataset_path (Path): the path of the seq-type dataset.
+                    seq_dataset_path (Path): Path to the full-seq dataset.
     '''
     # TODO: implement interval_list_dataset to be a name, not path
 
@@ -49,6 +51,8 @@ def create_seq_genomic_dataset(interval_list_dataset, dest_path=".", cache_path=
             for row in dt.iterrows():
                 row_filename = folder_filename / (str(row[1]['id']) + '.txt')
                 row_filename.write_text(row[1]['seq'])
+    
+    return Path(dest_path) / dataset_name
 
 
 def _check_dataset_existence(interval_list_dataset):
@@ -92,12 +96,13 @@ def _get_reference_name(url):
     return url.split('/')[-1]
 
 def _download_url(url, dest):
+    # download a file from url to dest
     if Path(dest).exists():
         Path(dest).unlink()
 
     print(f"Downloading {url}") 
-    
     class DownloadProgressBar(tqdm):
+        # for progress bar
         def update_to(self, b=1, bsize=1, tsize=None):
             if tsize is not None:
                 self.total = tsize
@@ -105,6 +110,7 @@ def _download_url(url, dest):
 
     with DownloadProgressBar(unit='B', unit_scale=True,
                              miniters=1, desc=str(dest)) as t:
+        # TODO: adapt fastdownload code instead of urllib
         urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
 
 EXTRA_PREPROCESSING = {
@@ -155,7 +161,7 @@ def _fill_seq_column(ref, tab):
     return pd.Series([ref[region][start:end] for region, start, end in zip(tab['region'], tab['start'], tab['end'])])
 
 def _remove_and_create(path):
-    # remove and create a folder
+    # cleaning step: remove the folder and then it again
     if path.exists():
         shutil.rmtree(path)
     path.mkdir(parents=True)
