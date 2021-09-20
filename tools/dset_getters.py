@@ -2,13 +2,8 @@ from torch.utils.data import Dataset
 import pandas as pd
 import torch
 import numpy as np
-from enum import Enum
 from pathlib import Path
 
-class Datatype(Enum):
-    TRAIN = 1
-    TEST = 2
-    # VALID = 3
 
 class dummy_dset(Dataset):
   def __init__(self):
@@ -27,7 +22,7 @@ class dummy_dset(Dataset):
     return x,y
 
 
-class cvsi_dset(Dataset):
+class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
     def __init__(self, split):
         #TODO parametrize path
         if(split == 'train'):
@@ -56,9 +51,15 @@ class cvsi_dset(Dataset):
         end = row['end']
         length = end-start
         # length = 100
-        print('L:',length)
-        dummy_seq = np.random.randint(low=0, high=4, size=length)
+        # print('L:',length)
+        #TODO resolve different lengths with optional padding?
+        # dummy_seq = np.random.randint(low=0, high=4, size=length)
+        dummy_seq = ''.join(np.random.choice(['A','C','T','G'], size=length))
+
         dummy_label = 0
-        x = torch.tensor(dummy_seq, dtype=torch.float32).to('cuda')
-        y = torch.tensor(dummy_label, dtype=torch.float32).to('cuda')
+        # x = torch.tensor(dummy_seq).to('cuda')
+        x = dummy_seq
+
+        # y = torch.tensor(dummy_label, dtype=torch.float32).to('cuda')
+        y = dummy_label
         return x,y
