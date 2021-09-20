@@ -6,6 +6,7 @@ import urllib
 import shutil  # for removing and creating folders
 from pathlib import Path
 from tqdm.auto import tqdm
+import warnings
 
 from Bio import SeqIO
 
@@ -70,16 +71,16 @@ def _check_dataset_existence(interval_list_dataset, version):
 
     if version is not None:
         if version != metadata['version']:
-            raise ValueError(f'Dataset version {version} does not match the version in metadata {metadata["version"]}.')
+            raise ValueError(f"Dataset version {version} does not match the version in metadata {metadata['version']}.")
     else:
-        raise Warning(f'No version specified. Using version {metadata["version"]}.')
+        warnings.warn(f"No version specified. Using version {metadata['version']}.")
 
     return metadata
 
 def _get_dataset_name(path):
     # get the dataset name from the path
     path = str(path)
-    return path.split('/')[-1]
+    return path.split('/')[-1] if not path.endswith('/') else path.split('/')[-2]
 
 def _download_references(metadata, cache_path, force=False):
     # download all references from the metadata into cache_path folder
