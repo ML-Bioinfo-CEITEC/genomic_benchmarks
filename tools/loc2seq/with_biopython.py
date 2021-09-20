@@ -16,7 +16,7 @@ REF_CACHE_PATH = CACHE_PATH / 'fasta'
 
 def create_seq_genomic_dataset(interval_list_dataset, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
     '''
-    From an interval-list genomic dataset creates full-seq genomic dataset.
+    Transform an interval-list genomic dataset into a full-seq genomic dataset.
 
             Parameters:
                     interval_list_dataset (str or Path): Either a path or a name of dataset included in this package.
@@ -114,6 +114,7 @@ def _download_url(url, dest):
         urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
 
 EXTRA_PREPROCESSING = {
+    # known extra preprocessing steps
     'default': [None, None, lambda x: x],
     'ENSEMBL_HUMAN_GENOME': [24, 'MT', lambda x: "chr"+x],
     'ENSEMBL_MOUSE_GENOME': [21, 'MT', lambda x: "chr"+x],
@@ -139,29 +140,26 @@ def _load_fastas_into_memory(refs, cache_path):
             raise ValueError(f'Unknown reference type {ref_type}')
     return fastas
 
-
 def _fastagz2dict(fasta_path, fasta_total=None, stop_id=None, region_name_transform=lambda x: x):
     # load gzipped fasta into dictionary
-    fasta = dict()
+    fasta = {}
 
     with gzip.open(fasta_path, "rt") as handle:
         for record in tqdm(SeqIO.parse(handle, "fasta"), total=fasta_total):
-            fasta[region_name_transform(record.id)] = str(record.seq)
-        
+            fasta[region_name_transform(record.id)] = str(record.seq)        
             if stop_id and (record.id == stop_id): 
                 # stop, do not read small contigs
-                break
-                
+                break             
     return fasta
 
-def _fill_seq_column(ref, tab):
-    # fill seq column in tab
-    if not all([r in ref for r in tab['region']]):
-        raise ValueError(f'Some regions not found in the reference.')
-    return pd.Series([ref[region][start:end] for region, start, end in zip(tab['region'], tab['start'], tab['end'])])
+def _fill_seq_column(fasta, df):
+    # fill seq column in DataFrame tab
+    if not all([r in fasta for r in df['region']]):
+        raise ValueError('Some regions not found in the reference.')
+    return pd.Series([fasta[region][start:end] for region, start, end in zip(df['region'], df['start'], df['end'])])
 
 def _remove_and_create(path):
-    # cleaning step: remove the folder and then it again
+    # cleaning step: remove the folder and then create it again
     if path.exists():
         shutil.rmtree(path)
     path.mkdir(parents=True)
