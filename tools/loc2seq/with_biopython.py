@@ -14,12 +14,13 @@ CACHE_PATH = Path.home() / '.genomic_benchmarks'
 REF_CACHE_PATH = CACHE_PATH / 'fasta'
 
 
-def create_seq_genomic_dataset(interval_list_dataset, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
+def create_seq_genomic_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
     '''
     Transform an interval-list genomic dataset into a full-seq genomic dataset.
 
             Parameters:
                     interval_list_dataset (str or Path): Either a path or a name of dataset included in this package.
+                    version (int): Version of the dataset.
                     dest_path (str or Path): Folder to store the full-seq dataset.
                     cache_path (str or Path): Folder to store the downloaded references.
                     force_download (bool): If True, force downloading of references.
@@ -29,7 +30,7 @@ def create_seq_genomic_dataset(interval_list_dataset, dest_path=CACHE_PATH, cach
     '''
     # TODO: implement interval_list_dataset to be a name, not path
 
-    metadata = _check_dataset_existence(interval_list_dataset)
+    metadata = _check_dataset_existence(interval_list_dataset, version)
     dataset_name = _get_dataset_name(interval_list_dataset)
     refs = _download_references(metadata, cache_path=cache_path, force=force_download)
     fastas = _load_fastas_into_memory(refs, cache_path=cache_path)
@@ -55,7 +56,7 @@ def create_seq_genomic_dataset(interval_list_dataset, dest_path=CACHE_PATH, cach
     return Path(dest_path) / dataset_name
 
 
-def _check_dataset_existence(interval_list_dataset):
+def _check_dataset_existence(interval_list_dataset, version):
     # check that the dataset exists, returns its metadata
     path = Path(interval_list_dataset)
     if not path.exists():
@@ -66,6 +67,13 @@ def _check_dataset_existence(interval_list_dataset):
         raise FileNotFoundError(f'Dataset {interval_list_dataset} does not contain `metadata.yaml` file.')
     with open(metadata_path, "r") as fr:
         metadata = yaml.safe_load(fr)
+
+    if version is not None:
+        if version != metadata['version']:
+            raise ValueError(f'Dataset version {version} does not match the version in metadata {metadata["version"]}.')
+    else:
+        raise Warning(f'No version specified. Using version {metadata["version"]}.')
+
     return metadata
 
 def _get_dataset_name(path):
@@ -116,9 +124,9 @@ def _download_url(url, dest):
 EXTRA_PREPROCESSING = {
     # known extra preprocessing steps
     'default': [None, None, lambda x: x],
-    'ENSEMBL_HUMAN_GENOME': [24, 'MT', lambda x: "chr"+x],
-    'ENSEMBL_MOUSE_GENOME': [21, 'MT', lambda x: "chr"+x],
-    'ENSEMBL_HUMAN_TRANSCRIPTOME': [190_000, None, lambda x: re.sub("ENST([0-9]*)[.][0-9]*", "ENST\\1", x)]
+    'ENSEMBL_HUMAN_GENOME': [24, 'MT', lambda x: "chr"+x],  # use only chromosomes, not contigs, and add chr prefix
+    'ENSEMBL_MOUSE_GENOME': [21, 'MT', lambda x: "chr"+x],  # use only chromosomes, not contigs, and add chr prefix
+    'ENSEMBL_HUMAN_TRANSCRIPTOME': [190_000, None, lambda x: re.sub("ENST([0-9]*)[.][0-9]*", "ENST\\1", x)]  # remove the version number from the ensembl id
 }
 
 def _load_fastas_into_memory(refs, cache_path):
