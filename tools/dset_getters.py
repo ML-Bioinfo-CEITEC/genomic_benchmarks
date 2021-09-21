@@ -63,3 +63,38 @@ class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/doc
         # y = torch.tensor(dummy_label, dtype=torch.float32).to('cuda')
         y = dummy_label
         return x,y
+
+class cvsi_dset_translated(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
+    def __init__(self, split):
+        #TODO check downloaded files
+        base_path = Path('/home/martinekvlastimil95/.genomic_benchmarks/demo_coding_vs_intergenomic_seqs')
+        if(split == 'train'):
+          base_path = base_path/'train'
+        elif(split == 'test'):
+          base_path = base_path/'test'
+        else:
+          raise Exception('Define split, train or test')
+
+        self.all_paths = []
+        self.all_labels = []
+        label_mapper = {
+          'coding':0,
+          'intergenomic':1,
+        }
+        for x in (base_path/'coding_seqs').iterdir():
+            self.all_paths.append(x)
+            self.all_labels.append(label_mapper['coding'])
+        for x in (base_path/'intergenomic_seqs').iterdir():
+            self.all_paths.append(x)
+            self.all_labels.append(label_mapper['intergenomic'])
+
+    def __len__(self):
+        return len(self.all_paths)
+
+    def __getitem__(self, idx):
+        txt_path = self.all_paths[idx]
+        with open(txt_path, 'r') as f:
+          content = f.read()
+        x = content
+        y = self.all_labels[idx]
+        return x,y
