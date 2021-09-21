@@ -1,1 +1,1 @@
-from .with_biopython import create_seq_genomic_dataset
+from .with_biopython import download_dataset
