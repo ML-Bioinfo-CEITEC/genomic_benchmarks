@@ -29,9 +29,11 @@ class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/doc
           c_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/train/coding_seqs.csv')
           i_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/train/intergenomic_seqs.csv')
 
-        if(split == 'test'):
+        elif(split == 'test'):
           c_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/test/coding_seqs.csv')
           i_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/test/intergenomic_seqs.csv')
+        else:
+            raise ValueError("Incorrect value of split argument")
 
 
         coding_df = pd.read_csv(c_path)
