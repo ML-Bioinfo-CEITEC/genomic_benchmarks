@@ -44,8 +44,9 @@ class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/doc
         # print(len(intergenomic_df))
         # print(len(self.df))
 
+
     def __len__(self):
-        return self.df.size
+        return len(self.df)
 
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
@@ -58,7 +59,7 @@ class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/doc
         # dummy_seq = np.random.randint(low=0, high=4, size=length)
         dummy_seq = ''.join(np.random.choice(['A','C','T','G'], size=length))
 
-        dummy_label = 0
+        dummy_label = np.random.randint(0, 2, size=1)[0]
         # x = torch.tensor(dummy_seq).to('cuda')
         x = dummy_seq
 
