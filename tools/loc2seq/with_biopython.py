@@ -15,7 +15,7 @@ CACHE_PATH = Path.home() / '.genomic_benchmarks'
 REF_CACHE_PATH = CACHE_PATH / 'fasta'
 
 
-def create_seq_genomic_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
+def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
     '''
     Transform an interval-list genomic dataset into a full-seq genomic dataset.
 
@@ -30,6 +30,7 @@ def create_seq_genomic_dataset(interval_list_dataset, version=None, dest_path=CA
                     seq_dataset_path (Path): Path to the full-seq dataset.
     '''
     # TODO: implement interval_list_dataset to be a name, not path
+    # TODO: cache known datasets to Google Drive (or somewhere)
 
     metadata = _check_dataset_existence(interval_list_dataset, version)
     dataset_name = _get_dataset_name(interval_list_dataset)
