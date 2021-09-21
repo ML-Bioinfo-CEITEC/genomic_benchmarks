@@ -1,8 +1,5 @@
-import os
 import torch
 from torch import nn
-from torch.utils.data import DataLoader
-from tools.dset_getters import dummy_dset, cvsi_dset
 
 
 # a dummy model with an adjustable number of classes
@@ -38,7 +35,7 @@ class NeuralNetwork(nn.Module):
         optimizer = torch.optim.SGD(self.parameters(), lr=learning_rate)
         for t in range(epochs):
             print(f"Epoch {t}")
-            self.train_loop(loader, optimizer)
+            self.train_loop(dataloader, optimizer)
 
     def test(self, dataloader):
         size = dataloader.dataset.__len__()
@@ -50,11 +47,6 @@ class NeuralNetwork(nn.Module):
                 pred = self(X)
                 test_loss += self.loss(pred, y).item()
                 correct += (torch.round(pred) == y).sum().item()
-
-        print('test_loss ', test_loss)
-        print('num_batches', num_batches)
-        print('correct', correct)
-        print('size', size)
 
         test_loss /= num_batches
         correct /= size
