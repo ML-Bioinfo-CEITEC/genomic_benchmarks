@@ -6,14 +6,6 @@ from tools.dset_getters import dummy_dset, cvsi_dset
 
 
 # a dummy model with an adjustable number of classes
-import os
-import torch
-from torch import nn
-from torch.utils.data import DataLoader
-from tools.dset_getters import dummy_dset, cvsi_dset
-
-
-# a dummy model with an adjustable number of classes
 class NeuralNetwork(nn.Module):
     def __init__(self, number_of_classes):
         super(NeuralNetwork, self).__init__()
@@ -34,7 +26,7 @@ class NeuralNetwork(nn.Module):
         
     def train_loop(self, dataloader, optimizer):
         for x, y in dataloader:
-            pred = model(x)
+            pred = self(x)
             loss = self.loss(pred, y)
 
             optimizer.zero_grad()
@@ -43,10 +35,10 @@ class NeuralNetwork(nn.Module):
             
     def train(self, dataloader, epochs):
         learning_rate = 1e-3
-        optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+        optimizer = torch.optim.SGD(self.parameters(), lr=learning_rate)
         for t in range(epochs):
             print(f"Epoch {t}")
-            model.train_loop(loader, optimizer)
+            self.train_loop(loader, optimizer)
 
     def test(self, dataloader):
         size = dataloader.dataset.__len__()
@@ -55,7 +47,7 @@ class NeuralNetwork(nn.Module):
 
         with torch.no_grad():
             for X, y in dataloader:
-                pred = model(X)
+                pred = self(X)
                 test_loss += self.loss(pred, y).item()
                 correct += (torch.round(pred) == y).sum().item()
 
@@ -66,4 +58,4 @@ class NeuralNetwork(nn.Module):
 
         test_loss /= num_batches
         correct /= size
-        print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+        print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss:{test_loss:>8f} \n")
