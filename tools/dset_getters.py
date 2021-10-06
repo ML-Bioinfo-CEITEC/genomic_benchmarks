@@ -3,6 +3,8 @@ import pandas as pd
 import torch
 import numpy as np
 from pathlib import Path
+from tools.data_utils import download_tarfile, untar_file
+from tools.loc2seq.with_biopython import download_dataset
 
 
 class dummy_dset(Dataset):
@@ -23,26 +25,38 @@ class dummy_dset(Dataset):
 
 
 class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
-    def __init__(self, split):
-        #TODO parametrize path
-        if(split == 'train'):
-          c_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/train/coding_seqs.csv')
-          i_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/train/intergenomic_seqs.csv')
+    def __init__(self, split, force_download=False):
 
+
+        base_path = Path('./datasets/demo_coding_vs_intergenomic_seqs')
+        if((not base_path.exists()) or force_download):
+          print('files not found or forced, downloading')
+          url = 'https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/raw/main/datasets/demo_coding_vs_intergenomic_seqs.tar.gz'
+          file_name = './datasets/demo_coding_vs_intergenomic_seqs.tar.gz'
+
+          #TODO fix download + untar
+          download_tarfile(url, file_name, force_download=force_download)
+          untar_file(file_name, './datasets')
+
+
+        dset_path = Path('./datasets/demo_coding_vs_intergenomic_seqs')
+        destination_path = Path('./datasets/translated_demo_coding_vs_intergenomic_seqs')
+
+
+        if(split == 'train'):
+          base_path = base_path/'train'
         elif(split == 'test'):
-          c_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/test/coding_seqs.csv')
-          i_path = Path('./datasets/demo_coding_vs_intergenomic_seqs/test/intergenomic_seqs.csv')
+          base_path = base_path/'test'
         else:
-            raise ValueError("Incorrect value of split argument")
+          raise Exception('Define split, train or test')
+
+        c_path = base_path/'coding_seqs.csv'
+        i_path = base_path/'intergenomic_seqs.csv'
 
 
         coding_df = pd.read_csv(c_path)
         intergenomic_df = pd.read_csv(i_path)
-        # path = Path('../datasets/demo_coding_vs_intergenomic_seqs/train/coding_seqs.csv')
         self.df = pd.concat([coding_df, intergenomic_df])
-        # print(len(coding_df))
-        # print(len(intergenomic_df))
-        # print(len(self.df))
 
 
     def __len__(self):
@@ -101,3 +115,5 @@ class cvsi_dset_translated(Dataset): #TODO inherit mapstyledataset? https://pyto
         x = content
         y = self.all_labels[idx]
         return x,y
+
+        
