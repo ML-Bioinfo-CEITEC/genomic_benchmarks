@@ -27,64 +27,22 @@ class dummy_dset(Dataset):
 class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
     def __init__(self, split, force_download=False):
 
-
         base_path = Path('./datasets/demo_coding_vs_intergenomic_seqs')
         if((not base_path.exists()) or force_download):
           print('files not found or forced, downloading')
           url = 'https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/raw/main/datasets/demo_coding_vs_intergenomic_seqs.tar.gz'
           file_name = './datasets/demo_coding_vs_intergenomic_seqs.tar.gz'
 
-          #TODO fix download + untar
           download_tarfile(url, file_name, force_download=force_download)
           untar_file(file_name, './datasets')
-
 
         dset_path = Path('./datasets/demo_coding_vs_intergenomic_seqs')
         destination_path = Path('./datasets/translated_demo_coding_vs_intergenomic_seqs')
 
-
-        if(split == 'train'):
-          base_path = base_path/'train'
-        elif(split == 'test'):
-          base_path = base_path/'test'
-        else:
-          raise Exception('Define split, train or test')
-
-        c_path = base_path/'coding_seqs.csv'
-        i_path = base_path/'intergenomic_seqs.csv'
-
-
-        coding_df = pd.read_csv(c_path)
-        intergenomic_df = pd.read_csv(i_path)
-        self.df = pd.concat([coding_df, intergenomic_df])
-
-
-    def __len__(self):
-        return len(self.df)
-
-    def __getitem__(self, idx):
-        row = self.df.iloc[idx]
-        start = row['start']
-        end = row['end']
-        length = end-start
-        # length = 100
-        # print('L:',length)
-        #TODO resolve different lengths with optional padding?
-        # dummy_seq = np.random.randint(low=0, high=4, size=length)
-        dummy_seq = ''.join(np.random.choice(['A','C','T','G'], size=length))
-
-        dummy_label = np.random.randint(0, 2, size=1)[0]
-        # x = torch.tensor(dummy_seq).to('cuda')
-        x = dummy_seq
-
-        # y = torch.tensor(dummy_label, dtype=torch.float32).to('cuda')
-        y = dummy_label
-        return x,y
-
-class cvsi_dset_translated(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
-    def __init__(self, split):
-        #TODO check downloaded files
-        base_path = Path('/home/martinekvlastimil95/.genomic_benchmarks/demo_coding_vs_intergenomic_seqs')
+        #TODO relocate fasta cache? force download param
+        base_path = download_dataset(dset_path, version=None, dest_path=destination_path, cache_path='./datasets/fasta', force_download=False)
+        
+        # base_path = destination_path
         if(split == 'train'):
           base_path = base_path/'train'
         elif(split == 'test'):
