@@ -23,45 +23,33 @@ class dummy_dset(Dataset):
     y = torch.tensor(row['column1']).to('cuda')
     return x,y
 
+class genomic_clf_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
+    def __init__(self, dset_name, split, force_download=False):
+        datasets_folder_path = './datasets'
+        fasta_cache_path = './fasta_cache'
 
-class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
-    def __init__(self, split, force_download=False):
+        dset_path = Path(f'{datasets_folder_path}/{dset_name}')
+        download_interval_dset(dest_path=datasets_folder_path, dset_name=dset_name)
 
-        base_path = Path('./datasets/demo_coding_vs_intergenomic_seqs')
-        if((not base_path.exists()) or force_download):
-          print('files not found or forced, downloading')
-          url = 'https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/raw/main/datasets/demo_coding_vs_intergenomic_seqs.tar.gz'
-          file_name = './datasets/demo_coding_vs_intergenomic_seqs.tar.gz'
-
-          download_tarfile(url, file_name, force_download=force_download)
-          untar_file(file_name, './datasets')
-
-        dset_path = Path('./datasets/demo_coding_vs_intergenomic_seqs')
-        destination_path = Path('./datasets/translated_demo_coding_vs_intergenomic_seqs')
-
-        #TODO relocate fasta cache? force download param
-        base_path = download_dataset(dset_path, version=None, dest_path=destination_path, cache_path='./datasets/fasta', force_download=False)
+        destination_path = Path(f'{datasets_folder_path}/translated_{dset_name}')
+        base_path = download_dataset(dset_path, version=None, dest_path=destination_path, cache_path=fasta_cache_path, force_download=force_download)
         
-        # base_path = destination_path
-        if(split == 'train'):
-          base_path = base_path/'train'
-        elif(split == 'test'):
-          base_path = base_path/'test'
+        if(split == 'train' or split=='test'):
+          base_path = base_path/split
         else:
           raise Exception('Define split, train or test')
 
         self.all_paths = []
         self.all_labels = []
-        label_mapper = {
-          'coding':0,
-          'intergenomic':1,
-        }
-        for x in (base_path/'coding_seqs').iterdir():
-            self.all_paths.append(x)
-            self.all_labels.append(label_mapper['coding'])
-        for x in (base_path/'intergenomic_seqs').iterdir():
-            self.all_paths.append(x)
-            self.all_labels.append(label_mapper['intergenomic'])
+        label_mapper = {}
+
+        for i,x in enumerate(base_path.iterdir()):
+          label_mapper[x.stem]=i
+
+        for label_type in label_mapper.keys():
+          for x in (base_path/label_type).iterdir():
+              self.all_paths.append(x)
+              self.all_labels.append(label_mapper[label_type])
 
     def __len__(self):
         return len(self.all_paths)
@@ -74,4 +62,35 @@ class cvsi_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/doc
         y = self.all_labels[idx]
         return x,y
 
-        
+def download_interval_dset(dest_path, dset_name, force_download=False):
+  base_path = Path(f'{dest_path}/{dset_name}')
+  if((not base_path.exists()) or force_download):
+    print('files not found or forced, downloading')
+    url = f'https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/raw/main/datasets/{dset_name}.tar.gz'
+    file_name = f'{dest_path}/{dset_name}.tar.gz'
+
+    download_tarfile(url, file_name, force_download=force_download)
+    untar_file(file_name, dest_path)
+
+class cvsi_dset(genomic_clf_dset):
+  def __init__(self, split, force_download):
+    dset_name = 'demo_coding_vs_intergenomic_seqs'
+    super().__init__(dset_name, split, force_download=force_download)
+
+  def __len__(self):
+    return super().__len__()
+
+  def __getitem__(self, idx):
+    return super().__getitem__(idx)
+
+
+class me_dset(genomic_clf_dset):
+  def __init__(self, split, force_download):
+    dset_name = 'demo_mouse_enhancers'
+    super().__init__(dset_name, split, force_download=force_download)
+
+  def __len__(self):
+    return super().__len__()
+
+  def __getitem__(self, idx):
+    return super().__getitem__(idx)
