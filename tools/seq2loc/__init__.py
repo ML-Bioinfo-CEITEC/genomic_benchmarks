@@ -1,0 +1,1 @@
+from .with_biopython import fasta2loc
