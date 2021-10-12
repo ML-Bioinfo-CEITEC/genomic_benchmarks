@@ -13,7 +13,7 @@ from Bio import SeqIO
 
 CACHE_PATH = Path.home() / '.genomic_benchmarks'
 REF_CACHE_PATH = CACHE_PATH / 'fasta'
-
+DATASET_DIR_PATH = (Path(__file__).parents[0] / '..' / '..' / '..' / 'datasets').resolve()
 
 def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
     '''
@@ -29,9 +29,9 @@ def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, 
             Returns:
                     seq_dataset_path (Path): Path to the full-seq dataset.
     '''
-    # TODO: implement interval_list_dataset to be a name, not path
     # TODO: cache known datasets to Google Drive (or somewhere)
 
+    interval_list_dataset = _guess_location(interval_list_dataset)
     metadata = _check_dataset_existence(interval_list_dataset, version)
     dataset_name = _get_dataset_name(interval_list_dataset)
     refs = _download_references(metadata, cache_path=cache_path, force=force_download)
@@ -43,8 +43,8 @@ def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, 
 
     for c in metadata['classes']:
         for t in ['train', 'test']:
-            dt_filename = Path(interval_list_dataset) / t / (c + '.csv')
-            dt = pd.read_csv(dt_filename)
+            dt_filename = Path(interval_list_dataset) / t / (c + '.csv.gz')
+            dt = pd.read_csv(dt_filename, compression="gzip")
 
             ref_name = _get_reference_name(metadata['classes'][c]['url'])
             dt['seq'] = _fill_seq_column(fastas[ref_name], dt)
@@ -56,6 +56,15 @@ def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, 
                 row_filename.write_text(row[1]['seq'])
     
     return Path(dest_path) / dataset_name
+
+
+def _guess_location(dataset_path):
+    if Path(dataset_path).exists():
+        return Path(dataset_path)
+    elif (DATASET_DIR_PATH / str(dataset_path)).exists():
+        return DATASET_DIR_PATH / str(dataset_path)
+    else:
+        raise FileNotFoundError(f'Dataset {dataset_path} not found.')
 
 
 def _check_dataset_existence(interval_list_dataset, version):
@@ -165,7 +174,9 @@ def _fastagz2dict(fasta_path, fasta_total=None, stop_id=None, region_name_transf
 def _fill_seq_column(fasta, df):
     # fill seq column in DataFrame tab
     if not all([r in fasta for r in df['region']]):
-        raise ValueError('Some regions not found in the reference.')
+        missing_regions = list({r for r in df['region'] if r not in fasta})
+        if len(missing_regions) > 5: missing_regions = missing_regions[:6]
+        raise ValueError('Some regions not found in the reference, e.g. ' + " ".join([str(r) for r in missing_regions]))
     return pd.Series([fasta[region][start:end] for region, start, end in zip(df['region'], df['start'], df['end'])])
 
 def _remove_and_create(path):
