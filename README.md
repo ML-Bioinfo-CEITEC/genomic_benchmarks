@@ -19,7 +19,7 @@ Genomic benchmarks can be used directly or install as a Python package as follow
 
 or with conda
 
-conda install [TBD]
+`conda install` [TBD]
 
 ## Structure of package
 
