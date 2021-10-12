@@ -12,7 +12,10 @@
 
 Genomic benchmarks can be used directly or install as a Python package as follows:
 
-pip install https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git [TBD]
+```
+   git clone git@github.com:ML-Bioinfo-CEITEC/genomic_benchmarks.git
+   python setup.py develop
+```
 
 or with conda
 
@@ -22,7 +25,7 @@ conda install [TBD]
 
   * [datasets](datasets/): Each folder is one bechmark dataset (or a set of bechmarks in subfolders), see [README.md](datasets/README.md) for the format specification
   * [docs](docs/): Each folder contains a Python notebook that has been used for the dataset construction
-  * [tools](docs/): Python module for datasets manipulation (downlading, checking, etc.) 
+  * [src/genomic_benchmarks](src/genomic_benchmarks/): Python module for datasets manipulation (downlading, checking, etc.) 
 
 
 ## Tests
