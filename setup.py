@@ -4,9 +4,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='genomic-datasets',
+    name='genomic_benchmarks',
     version='0.0.1',
-    description='Genomic Datasets',
+    description='Genomic Benchmarks',
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='RBP Bioinformatics',
@@ -14,9 +14,8 @@ setup(
     license='Apache License 2.0',
     keywords=['bioinformatics', 'genomics', 'data'],
     url='https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks',
-    # download_url='https://gitlab.com/RBP_Bioinformatics/rbp/-/archive/master/rbp-master.tar.gz',
-    packages=find_packages('tools'),
-    package_dir={'': 'tools'},
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     scripts=[],
     # setup_requires=['pytest-runner'],
     install_requires=[
