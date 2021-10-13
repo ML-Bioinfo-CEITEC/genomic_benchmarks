@@ -1,6 +1,6 @@
 # Tools
 
-If you are adding a new tool, please, add here a short description. Do not forget to properly document your tool. Tests and demo help users to start smoothly.
+If you are adding a new tool, please, add here a short description. Do not forget to properly document your tool. Tests and demos help users to start smoothly.
 
 ## loc2seq
 
