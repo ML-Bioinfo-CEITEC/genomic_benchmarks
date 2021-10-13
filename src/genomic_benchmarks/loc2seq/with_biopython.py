@@ -5,7 +5,7 @@ import re
 import urllib
 import shutil  # for removing and creating folders
 from pathlib import Path
-from tqdm.auto import tqdm
+from tqdm.autonotebook import tqdm
 import warnings
 
 from Bio import SeqIO
@@ -177,7 +177,15 @@ def _fill_seq_column(fasta, df):
         missing_regions = list({r for r in df['region'] if r not in fasta})
         if len(missing_regions) > 5: missing_regions = missing_regions[:6]
         raise ValueError('Some regions not found in the reference, e.g. ' + " ".join([str(r) for r in missing_regions]))
-    return pd.Series([fasta[region][start:end] for region, start, end in zip(df['region'], df['start'], df['end'])])
+    output = pd.Series([_rev(fasta[region][start:end], strand) for region, start, end, strand in zip(df['region'], df['start'], df['end'], df['strand'])])
+    return output
+
+def _rev(seq, strand):
+    # reverse complement
+    if strand == '-':
+        return str(Seq(seq).reverse_complement())
+    else:
+        return seq
 
 def _remove_and_create(path):
     # cleaning step: remove the folder and then create it again
