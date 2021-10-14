@@ -9,6 +9,7 @@ from tqdm.autonotebook import tqdm
 import warnings
 
 from Bio import SeqIO
+from Bio.Seq import Seq
 
 
 CACHE_PATH = Path.home() / '.genomic_benchmarks'
