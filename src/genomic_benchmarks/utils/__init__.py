@@ -1,1 +1,1 @@
-from .data_utils import download_tarfile, untar_file
+from .data_utils import extract_gzip

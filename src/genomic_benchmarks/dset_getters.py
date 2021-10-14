@@ -1,21 +1,24 @@
 from torch.utils.data import Dataset
-import pandas as pd
-import torch
-import numpy as np
 from pathlib import Path
+import genomic_benchmarks
 from genomic_benchmarks.loc2seq.with_biopython import download_dataset
-from genomic_benchmarks.utils.data_utils import download_tarfile, untar_file
+from genomic_benchmarks.utils.data_utils import extract_gzip
+import os
 
-
-class genomic_clf_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
+class genomic_clf_dset(Dataset):
     def __init__(self, dset_name, split, force_download=False):
-        datasets_folder_path = Path.home() / '.genomic_benchmarks'
-        fasta_cache_path = datasets_folder_path / 'fasta'
+        translated_datasets_folder_path = Path.home() / '.genomic_benchmarks'
+        #TODO resolve path some other way?
+        interval_datasets_folder_path = Path(os.path.dirname(genomic_benchmarks.__file__)).parent.parent/'datasets'
+        fasta_cache_path = translated_datasets_folder_path / 'fasta'
+        dset_path = Path(f'{interval_datasets_folder_path}/{dset_name}')
 
-        dset_path = Path(f'{datasets_folder_path}/{dset_name}')
-        download_interval_dset(dest_path=datasets_folder_path, dset_name=dset_name)
+        for gz_file in dset_path.rglob('*.gz'):
+          csv_path = gz_file.parent/(gz_file.stem)
+          if not csv_path.exists():
+            extract_gzip(gz_file, csv_path)
 
-        destination_path = Path(f'{datasets_folder_path}/translated_{dset_name}')
+        destination_path = Path(f'{translated_datasets_folder_path}/translated_{dset_name}')
         base_path = download_dataset(dset_path, version=None, dest_path=destination_path, cache_path=fasta_cache_path, force_download=force_download)
         
         if(split == 'train' or split=='test'):
@@ -46,23 +49,12 @@ class genomic_clf_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.
         y = self.all_labels[idx]
         return x, y
 
-def download_interval_dset(dest_path, dset_name, force_download=False):
-  base_path = Path(f'{dest_path}/{dset_name}')
-  if (not base_path.exists()) or force_download:
-    print('files not found or forced, downloading')
-    url = f'https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/raw/main/datasets/{dset_name}.tar.gz'
-    file_name = f'{dest_path}/{dset_name}.tar.gz'
-
-    download_tarfile(url, file_name, force_download=force_download)
-    untar_file(file_name, dest_path)
-
-
 def get_dataset(dataset_name, split, force_download=False):
   return genomic_clf_dset(dataset_name, split, force_download)
 
 
 class demo_coding_vs_intergenomic_seqs_dset(genomic_clf_dset):
-  def __init__(self, split, force_download):
+  def __init__(self, split, force_download=False):
     dset_name = 'demo_coding_vs_intergenomic_seqs'
     super().__init__(dset_name, split, force_download=force_download)
 
@@ -74,7 +66,7 @@ class demo_coding_vs_intergenomic_seqs_dset(genomic_clf_dset):
 
 
 class demo_mouse_enhancers_dset(genomic_clf_dset):
-  def __init__(self, split, force_download):
+  def __init__(self, split, force_download=False):
     dset_name = 'demo_mouse_enhancers'
     super().__init__(dset_name, split, force_download=force_download)
 
