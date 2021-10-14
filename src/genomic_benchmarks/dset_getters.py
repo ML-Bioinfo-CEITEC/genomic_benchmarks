@@ -3,8 +3,8 @@ import pandas as pd
 import torch
 import numpy as np
 from pathlib import Path
-from tools.data_utils import download_tarfile, untar_file
-from tools.loc2seq.with_biopython import download_dataset
+from genomic_benchmarks.loc2seq.with_biopython import download_dataset
+from genomic_benchmarks.utils.data_utils import download_tarfile, untar_file
 
 
 class genomic_clf_dset(Dataset): #TODO inherit mapstyledataset? https://pytorch.org/docs/stable/data.html#dataset-types
