@@ -4,7 +4,7 @@ from io import StringIO
 from tqdm.autonotebook import tqdm
 
 
-def fasta2loc(fasta_path, ref_dict):
+def fasta2loc(fasta_path, ref_dict, use_seq_ids=True):
 
     tree = {}
     nseqs = 0
@@ -13,7 +13,10 @@ def fasta2loc(fasta_path, ref_dict):
     for seq in SeqIO.parse(open(fasta_path, "r"), "fasta"):
         s = str(seq.seq)
         rev = str(seq.seq.reverse_complement())
-        sname = seq.name
+        if use_seq_ids:
+            sname = seq.name
+        else:
+            sname = s
         nseqs += 1
     
         _update_tree(tree, s, sname, '+')

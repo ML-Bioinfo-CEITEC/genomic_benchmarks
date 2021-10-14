@@ -8,5 +8,11 @@ To make the process of benchmarks creation reproducible, please, try to stick to
 * Clean up temporary files, especially if they were created inside the package structure (so they will not be accidentally pushed to GitHub) 
 * It is ok to import packages that are not contained in `requirements.txt` but avoid adding unnecessary dependencies
 * For Jupyter Notebook, it might be a good idea to rerun everything at the end using `Kernel -> Restart & Run All`
+* Make sure that the created benchmark can be read, i.e. run the following code
+
+```
+    from genomic_benchmarks.loc2seq import download_dataset
+    download_dataset("YOUR_BENCHMARK_NAME")
+```
 
 
