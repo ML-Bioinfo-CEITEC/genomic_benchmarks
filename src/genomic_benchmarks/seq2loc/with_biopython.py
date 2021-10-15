@@ -28,7 +28,7 @@ def fasta2loc(fasta_path, ref_dict, use_seq_ids=True):
 
     for chrom in tqdm(ref_dict):
         curr_positions = []
-        print(f"Processing chrom {chrom}.")
+        #print(f"Processing chrom {chrom}.")
 
         for i, c in tqdm(enumerate(ref_dict[chrom]), total=len(ref_dict[chrom]), leave=False):
     
