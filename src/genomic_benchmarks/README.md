@@ -9,3 +9,7 @@ With `create_seq_genomic_dataset` function, you can transform a dataset given as
 ## seq2loc
 
 Sometimes we want to include a benchmark that was given to us as full sequences, not genomic intervals. This tool search for perfect matches in a reference and output a dataframe with genomic locations. For example, see [human non-tata promoters dataset](../../docs/human_nontata_promoters/create_datasets.ipynb).
+
+## data_check
+
+ A collention of functions to get info, check or validate a benchmark. Currently, only a limited scope of tools is implemented. For demo, see [demo_data_check.ipynb](data_check/demo_data_check.ipynb).
