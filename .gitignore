@@ -133,3 +133,4 @@ dmypy.json
 
 # macOS
 .DS_Store
+.Rproj.user
