@@ -2,7 +2,7 @@
 
 Dataset created with data downloaded from [Ensembl](https://www.ensembl.org/index.html).
 
-Positive sequences are Human enhancers from [VISTA Enhancer Browser](https://enhancer.lbl.gov/), but accessed via Ensembl. 
+Positive sequences are Human enhancers from [The FANTOM5 project](https://fantom.gsc.riken.jp/5/), but accessed via Ensembl. 
 Negative sequences are randomly generated from Human genome GRCm38 to match lengths of positive sequences and to not overlap them.
 
-The VISTA Enhancer Browser is a central resource for experimentally validated human and mouse noncoding fragments with gene enhancer activity as assessed in transgenic mice. Most of these noncoding elements were selected for testing based on their extreme conservation in other vertebrates or epigenomic evidence (ChIP-Seq) of putative enhancer marks. 
+The FANTOM5 project contains atlases of mammalian promoters, enhancers, lncRNAs and miRNAs. They have mapped the sets of transcripts, transcription factors, promoters and enhancers active in the majority of mammalian primary cell types and a series of cancer cell lines, and tissues, using Cap Analysis of Gene Expression (CAGE).
