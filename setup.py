@@ -27,6 +27,7 @@ setup(
         'numpy>=1.17.0',
         'pandas>=1.1.4',
         'tqdm>=4.41.1',
+        'pyyaml>=5.3.1',
     ],
     # tests_require=['pytest'],
     # cmdclass={'test': PyTest},
