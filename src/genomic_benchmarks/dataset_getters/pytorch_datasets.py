@@ -4,8 +4,21 @@ import genomic_benchmarks
 from genomic_benchmarks.loc2seq.with_biopython import download_dataset
 import os
 
-class genomic_clf_dset(Dataset):
+class GenomicClfDataset(Dataset):
+    '''
+    A class to represent generic genomic classification pytorch dataset.
+    Instance of this class can be directly wrapped by pytorch DataLoader
+    '''
     def __init__(self, dset_name, split, force_download=False):
+        '''
+        Parameters
+            dset_name : str
+                One of the existing dataset names, list available at TODO
+            split : str
+                "train" or "test"
+            force_download : bool
+                Whether to re-download already existing files
+        '''
         translated_datasets_folder_path = Path.home() / '.genomic_benchmarks'
         # TODO resolve path some other way?
         interval_datasets_folder_path = Path(os.path.dirname(
@@ -48,28 +61,13 @@ class genomic_clf_dset(Dataset):
 
 
 def get_dataset(dataset_name, split, force_download=False):
-    return genomic_clf_dset(dataset_name, split, force_download)
+    return GenomicClfDataset(dataset_name, split, force_download)
 
 
-class demo_coding_vs_intergenomic_seqs_dset(genomic_clf_dset):
-    def __init__(self, split, force_download=False):
-        dset_name = 'demo_coding_vs_intergenomic_seqs'
-        super().__init__(dset_name, split, force_download=force_download)
-
-    def __len__(self):
-        return super().__len__()
-
-    def __getitem__(self, idx):
-        return super().__getitem__(idx)
+def DemoCodingVsIntergenomicSeqs(split, force_download=False):
+    return GenomicClfDataset('demo_coding_vs_intergenomic_seqs', split, force_download)
 
 
-class demo_mouse_enhancers_dset(genomic_clf_dset):
-    def __init__(self, split, force_download=False):
-        dset_name = 'demo_mouse_enhancers'
-        super().__init__(dset_name, split, force_download=force_download)
+def DemoMouseEnhancers(split, force_download=False):
+    return GenomicClfDataset('demo_mouse_enhancers', split, force_download)
 
-    def __len__(self):
-        return super().__len__()
-
-    def __getitem__(self, idx):
-        return super().__getitem__(idx)
