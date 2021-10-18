@@ -5,39 +5,23 @@ from torch.nn import ConstantPad1d
 from torchtext.vocab import vocab, build_vocab_from_iterator
 
 
-def simple_coll_factory(vocab, tokenizer):
-    def simple_coll(batch):
+def coll_factory(vocab, tokenizer, device='cpu', pad_to_length=None):
+    def coll(batch):
         xs, ys = [],[]      
+            
         for text,label in batch:
             ys.append(torch.tensor([label], dtype=torch.float32))
-            tmp = torch.tensor([vocab[token] for token in tokenizer(text)], dtype=torch.long)
-            x = torch.tensor(tmp, dtype=torch.long)
-            xs.append(x)
-            
-        xs = torch.stack(xs)
-        ys = torch.stack(ys)
-        return xs.to('cuda'),ys.to('cuda')
-    return simple_coll
-
-
-def padding_coll_factory(longest_length, vocab, tokenizer):
-    def padding_coll(batch):
-        PAD_IDX = vocab['<pad>']
-        xs, ys = [],[]
-        for text,label in batch:
-            ys.append(torch.tensor([label], dtype=torch.float32))
-            tmp = torch.tensor([vocab[token] for token in tokenizer(text)], dtype=torch.long)
-            pad = ConstantPad1d((0, longest_length - len(tmp)), PAD_IDX)
-            tmp = pad(tmp)
-            
-            x = torch.tensor(tmp, dtype=torch.long)
+            x = torch.tensor([vocab[token] for token in tokenizer(text)], dtype=torch.long)
+            if(pad_to_length != None):
+                PAD_IDX = vocab['<pad>']
+                pad = ConstantPad1d((0, pad_to_length - len(x)), PAD_IDX)
+                x = torch.tensor(pad(x), dtype=torch.long)
             xs.append(x)
 
         xs = torch.stack(xs)
         ys = torch.stack(ys)
-        return xs.to('cuda'),ys.to('cuda')
-    
-    return padding_coll
+        return xs.to(device),ys.to(device)
+    return coll
 
 #             torch.nn.functional.pad(
 #                 torch.tensor([mapper[ch] for ch in text], dtype=torch.float32), 
