@@ -134,3 +134,7 @@ dmypy.json
 # macOS
 .DS_Store
 .Rproj.user
+
+# Custom
+datasets/
+fasta_cache/

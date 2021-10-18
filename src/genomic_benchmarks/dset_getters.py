@@ -2,9 +2,7 @@ from torch.utils.data import Dataset
 from pathlib import Path
 import genomic_benchmarks
 from genomic_benchmarks.loc2seq.with_biopython import download_dataset
-from genomic_benchmarks.utils.data_utils import extract_gzip
 import os
-
 
 class genomic_clf_dset(Dataset):
     def __init__(self, dset_name, split, force_download=False):
@@ -14,11 +12,6 @@ class genomic_clf_dset(Dataset):
             genomic_benchmarks.__file__)).parent.parent/'datasets'
         fasta_cache_path = translated_datasets_folder_path / 'fasta'
         dset_path = Path(f'{interval_datasets_folder_path}/{dset_name}')
-
-        for gz_file in dset_path.rglob('*.gz'):
-            csv_path = gz_file.parent/(gz_file.stem)
-            if not csv_path.exists():
-                extract_gzip(gz_file, csv_path)
 
         destination_path = Path(
             f'{translated_datasets_folder_path}/translated_{dset_name}')
