@@ -1,1 +1,1 @@
-from .info import info, is_downloaded
+from .info import info, is_downloaded, list_datasets

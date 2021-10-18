@@ -5,6 +5,8 @@ from pathlib import Path
 from genomic_benchmarks.loc2seq.with_biopython import CACHE_PATH, DATASET_DIR_PATH
 from genomic_benchmarks.loc2seq.with_biopython import _guess_location, _check_dataset_existence, _get_dataset_name
 
+# TODO: Many of these functions are not prepared for the case when the folder in DATASET_DIR_PATH is not one benchmark but a set of benchmarks.
+
 def info(interval_list_dataset, version=None):
     '''
     Print info about the bechmark.
@@ -64,3 +66,18 @@ def is_downloaded(interval_list_dataset, cache_path=CACHE_PATH):
     dataset_name = _get_dataset_name(interval_list_dataset)
     cache_path = Path(cache_path) / dataset_name
     return cache_path.exists()
+
+
+def list_datasets(dataset_path=DATASET_DIR_PATH):
+    '''
+    List all interval datasets in the package.
+
+            Parameters:
+                    dataset_path (Path): Path to the datasets folder.
+
+            Returns:
+                    list: List of dataset names.
+    '''
+
+    cache_path = Path(dataset_path)
+    return [x.name for x in dataset_path.iterdir() if x.is_dir()]
