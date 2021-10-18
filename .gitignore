@@ -136,5 +136,4 @@ dmypy.json
 .Rproj.user
 
 # Custom
-datasets/
 fasta_cache/
