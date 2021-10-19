@@ -1,3 +1,4 @@
+import types
 import torch 
 import numpy as np
 from collections import Counter 
@@ -61,3 +62,39 @@ def build_vocab(dataset, tokenizer, use_padding):
 #         iterator = counter, 
 #         specials = ['<unk>', '<pad>', '<bos>', '<eos>'],
 #         special_first = True)
+
+
+def check_seq_lengths(dataset, config):
+    # Compute length of the longest sequence
+    max_seq_len = max([len(dataset[i][0]) for i in range(len(dataset))])
+    print("max_seq_len ", max_seq_len)
+    same_length = [len(dataset[i][0]) == max_seq_len for i in range(len(dataset))]
+    if not all(same_length):
+        print("not all sequences are of the same length")
+
+    # Count in tokens added in tokenizer '<bos>' and '<eos>' and the padding token <pad>
+    if(config["use_padding"]):
+        len_with_tokens = max_seq_len+3
+    else:
+        len_with_tokens = max_seq_len+2
+    return max_seq_len, len_with_tokens
+
+
+def check_config(config):        
+    control_config = {
+        "use_padding": bool,
+        "run_on_gpu": bool,
+        "dataset": types.FunctionType,
+        "number_of_classes": int,
+        "dataset_version": int,
+        "force_download": bool,
+        "epochs": int,
+        "embedding_dim": int,
+        "batch_size": int,
+    #   vocabulary that is not present in the training set but is present in the test set
+        "vocab_to_add": list,
+    }
+    
+    for key in config.keys():
+        assert isinstance(config[key], control_config[key])
+    print("config is correct")
