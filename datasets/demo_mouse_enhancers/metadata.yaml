@@ -2,9 +2,9 @@ classes:
   negative:
     extra_processing: ENSEMBL_MOUSE_GENOME
     type: fa.gz
-    url: ftp://ftp.ensembl.org/pub/release-100/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna_rm.toplevel.fa.gz
+    url: ftp://ftp.ensembl.org/pub/release-100/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.toplevel.fa.gz
   positive:
     extra_processing: ENSEMBL_MOUSE_GENOME
     type: fa.gz
-    url: ftp://ftp.ensembl.org/pub/release-100/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna_rm.toplevel.fa.gz
+    url: ftp://ftp.ensembl.org/pub/release-100/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.toplevel.fa.gz
 version: 0
