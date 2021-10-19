@@ -6,8 +6,6 @@
 
 [WHAT BENCHMARKS ARE GENOMIC BENCHMARKS?]
 
-[HOW TO USE GENOMIC BENCHMARKS?]
-
 ## Install
 
 Genomic benchmarks can be installed as a Python package as follows:
@@ -18,14 +16,16 @@ Genomic benchmarks can be installed as a Python package as follows:
    python setup.py develop
 ```
 
-or with conda
+## Usage
 
-`conda install` [TBD]
+TBD
 
 ## Structure of package
 
-  * [datasets](datasets/): Each folder is one bechmark dataset (or a set of bechmarks in subfolders), see [README.md](datasets/README.md) for the format specification
-  * [docs](docs/): Each folder contains a Python notebook that has been used for the dataset construction
+  * [datasets](datasets/): Each folder is one benchmark dataset (or a set of bechmarks in subfolders), see [README.md](datasets/README.md) for the format specification
+  * [docs](docs/): Each folder contains a Python notebook that has been used for the dataset creation
+  * [experiments](experiments/): Fitting a simple neural network model(s) for each benchmark, can be used as a baseline
+  * [notebooks](notebooks/): Main use-cases demonstrated in a form of Jupyter notebooks 
   * [src/genomic_benchmarks](src/genomic_benchmarks/): Python module for datasets manipulation (downlading, checking, etc.) 
 
 

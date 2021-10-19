@@ -1,5 +1,7 @@
 # Experiments
 
+In this folder, each notebook is one experient = one benchmark and the appropriate CNN model fitted to it. See accuracy of the prediction over test sets in the table below.
+
 ## To add a new experiment
 - Choose a dataset from `genomic_benchmarks/src/genomic_benchmarks/dataset_getters/pytorch_datasets.py`
 - Copy an existing experiment notebook
