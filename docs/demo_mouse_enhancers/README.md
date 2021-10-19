@@ -1,6 +1,6 @@
 # Mouse Enhancer regions vs Random background regions from GRCm38
 
-Dataset created with data downloaded from [Ensembl](https://www.ensembl.org/index.html).
+Dataset created with data downloaded from [Ensembl](https://www.ensembl.org/index.html) release 100.
 
 Positive sequences are mouse Enhancers from [VISTA Enhancer Browser](https://enhancer.lbl.gov/), but accessed via Ensembl. 
 Negative sequences are randomly generated from mouse genome GRCm38 to match lengths of positive sequences and to not overlap them.
