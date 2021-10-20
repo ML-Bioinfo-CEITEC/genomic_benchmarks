@@ -1,0 +1,9 @@
+classes:
+  human:
+    extra_processing: ENSEMBL_HUMAN_GENOME
+    type: fa.gz
+    url: http://ftp.ensembl.org/pub/release-97/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.gz
+  worm:
+    type: fa.gz
+    url: http://ftp.ensembl.org/pub/release-104/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz
+version: 0
