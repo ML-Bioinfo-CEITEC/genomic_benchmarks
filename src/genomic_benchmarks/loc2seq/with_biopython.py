@@ -201,3 +201,21 @@ def _remove_and_create(path):
     if path.exists():
         shutil.rmtree(path)
     path.mkdir(parents=True)
+
+
+def remove_dataset_from_disk(interval_list_dataset, version=None, dest_path=CACHE_PATH):
+    '''
+    Remove the full-seq dataset from the disk.
+
+            Parameters:
+                    interval_list_dataset (str or Path): Either a path or a name of dataset included in this package.
+                    version (int): Version of the dataset.
+                    dest_path (str or Path): Folder to store the full-seq dataset.
+    '''
+    interval_list_dataset = _guess_location(interval_list_dataset)
+    metadata = _check_dataset_existence(interval_list_dataset, version)
+    dataset_name = _get_dataset_name(interval_list_dataset)
+
+    path = Path(dest_path) / dataset_name
+    if path.exists():
+        shutil.rmtree(path)

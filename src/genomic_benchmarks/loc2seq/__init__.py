@@ -1,1 +1,1 @@
-from .with_biopython import download_dataset
+from .with_biopython import download_dataset, remove_dataset_from_disk
