@@ -11,12 +11,14 @@ import warnings
 from Bio import SeqIO
 from Bio.Seq import Seq
 
+from .cloud_caching import CLOUD_CACHE, download_from_cloud_cache
 
 CACHE_PATH = Path.home() / '.genomic_benchmarks'
 REF_CACHE_PATH = CACHE_PATH / 'fasta'
 DATASET_DIR_PATH = (Path(__file__).parents[0] / '..' / '..' / '..' / 'datasets').resolve()
 
-def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False):
+def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, 
+                     force_download=False, use_cloud_cache=True):
     '''
     Transform an interval-list genomic dataset into a full-seq genomic dataset.
 
@@ -26,15 +28,21 @@ def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, 
                     dest_path (str or Path): Folder to store the full-seq dataset.
                     cache_path (str or Path): Folder to store the downloaded references.
                     force_download (bool): If True, force downloading of references.
+                    use_cloud_cache (bool): If True, use the cloud cache for downloading a full-seq genomic datasets.
 
             Returns:
                     seq_dataset_path (Path): Path to the full-seq dataset.
     '''
-    # TODO: cache known datasets to Google Drive (or somewhere)
 
     interval_list_dataset = _guess_location(interval_list_dataset)
     metadata = _check_dataset_existence(interval_list_dataset, version)
     dataset_name = _get_dataset_name(interval_list_dataset)
+
+    if version is None:
+        version = metadata['version']
+    if use_cloud_cache and ((dataset_name, version) in CLOUD_CACHE):
+        return download_from_cloud_cache((dataset_name, version), Path(dest_path) / dataset_name)
+
     refs = _download_references(metadata, cache_path=cache_path, force=force_download)
     fastas = _load_fastas_into_memory(refs, cache_path=cache_path)
 

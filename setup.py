@@ -28,6 +28,7 @@ setup(
         'pandas>=1.1.4',
         'tqdm>=4.41.1',
         'pyyaml>=5.3.1',
+        'googledrivedownloader>=0.4', # 'gdown>=4.2.0',
     ],
     # tests_require=['pytest'],
     # cmdclass={'test': PyTest},
