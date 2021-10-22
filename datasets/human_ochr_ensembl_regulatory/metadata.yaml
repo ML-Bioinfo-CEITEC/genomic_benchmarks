@@ -1,0 +1,10 @@
+classes:
+  negative:
+    extra_processing: ENSEMBL_HUMAN_GENOME
+    type: fa.gz
+    url: ftp://ftp.ensembl.org/pub/release-100/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.gz
+  positive:
+    extra_processing: ENSEMBL_HUMAN_GENOME
+    type: fa.gz
+    url: ftp://ftp.ensembl.org/pub/release-100/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.gz
+version: 0
