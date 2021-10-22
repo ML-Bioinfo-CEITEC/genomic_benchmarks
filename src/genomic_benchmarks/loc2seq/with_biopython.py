@@ -41,6 +41,7 @@ def download_dataset(interval_list_dataset, version=None, dest_path=CACHE_PATH, 
     if version is None:
         version = metadata['version']
     if use_cloud_cache and ((dataset_name, version) in CLOUD_CACHE):
+        Path(dest_path).mkdir(parents=True, exist_ok=True)  # to be sure "./.genomic_benchmarks" exists
         return download_from_cloud_cache((dataset_name, version), Path(dest_path) / dataset_name)
 
     refs = _download_references(metadata, cache_path=cache_path, force=force_download)

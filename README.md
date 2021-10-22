@@ -18,7 +18,21 @@ Genomic benchmarks can be installed as a Python package as follows:
 
 ## Usage
 
-TBD
+The function `download_dataset` downloads the full-sequences form of the required format, splitted into train and test sets, one folder for each class. If not specified otherwise, the data will be stored in `.genomic_benchmarks` subfolder of your home directory. By default, the dataset is downloaded from our cloud cache but you may choose to donwload all the references and re-create the benchmark (`use_cloud_cache=False`).  
+
+```python
+  from genomic_benchmarks.loc2seq import download_dataset
+  
+  download_dataset("human_nontata_promoters")
+```
+
+You can get basic information about the benchmark with `info` function (you can get more info in [datasets](datasets/) & [docs](docs/) folders):
+
+```python
+  from genomic_benchmarks.data_check import info
+  
+  info("human_nontata_promoters")
+```
 
 ## Structure of package
 
