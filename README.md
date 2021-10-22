@@ -54,7 +54,7 @@ See [How_To_Train_CNN_Classifier_With_TF.ipynb](notebooks/How_To_Train_CNN_Class
 
   * [datasets](datasets/): Each folder is one benchmark dataset (or a set of bechmarks in subfolders), see [README.md](datasets/README.md) for the format specification
   * [docs](docs/): Each folder contains a Python notebook that has been used for the dataset creation
-  * [experiments](experiments/): Fitting a simple neural network model(s) for each benchmark, can be used as a baseline
+  * [experiments](experiments/): Training a simple neural network model(s) for each benchmark dataset, can be used as a baseline
   * [notebooks](notebooks/): Main use-cases demonstrated in a form of Jupyter notebooks 
   * [src/genomic_benchmarks](src/genomic_benchmarks/): Python module for datasets manipulation (downlading, checking, etc.) 
 
