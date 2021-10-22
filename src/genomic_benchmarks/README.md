@@ -14,7 +14,11 @@ Sometimes we want to include a benchmark that was given to us as full sequences,
 
  A collention of functions to get info, check or validate a benchmark. Currently, only a limited scope of tools is implemented. For demo, see [demo_data_check.ipynb](data_check/demo_data_check.ipynb).
 
- ## dataset_getters
+## dataset_getters
 
 Objects wrapping availible datasets, making them directly usable by machine learning libraries.
 Currently supports pytorch datasets. 
+
+## models
+
+Definition of TF and PyTorch models.
