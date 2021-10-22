@@ -28,7 +28,7 @@ You can get basic information about the benchmark with `info` function:
   info("human_nontata_promoters")
 ```
 
-Getting TenforFlow Dataset for the benchmark is straightforward: 
+Getting TensorFlow Dataset for the benchmark is straightforward: 
 
 ```python
   from pathlib import Path
@@ -43,7 +43,7 @@ Getting TenforFlow Dataset for the benchmark is straightforward:
       batch_size=BATCH_SIZE,
       class_names=CLASSES)
 ```
-See [How_To_Train_CNN_Classifier_With_TF.ipynb](notebooks/How_To_Train_CNN_Classifier_With_TF.ipynb) for a description how to train CNN classifier with TenforFlow.
+See [How_To_Train_CNN_Classifier_With_TF.ipynb](notebooks/How_To_Train_CNN_Classifier_With_TF.ipynb) for more detailed description how to train CNN classifier with TensorFlow.
 
 ## Introduction
 
