@@ -1,9 +1,9 @@
 # Genomic Benchmarks
 
-In this repository, we collect benchmarks for classification of genomic sequences. It is shipped as a Python package, together with functions helping to download & manipulate the datasets and train NN models. 
+In this repository, we collect benchmarks for classification of genomic sequences. It is shipped as a Python package, together with functions helping to download & manipulate datasets and train NN models. 
 ## Install
 
-Genomic benchmarks can be installed as a Python package as follows:
+Genomic benchmarks can be installed as follows:
 
 ```
    git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
@@ -12,7 +12,7 @@ Genomic benchmarks can be installed as a Python package as follows:
 ```
 ## Usage
 
-The function `download_dataset` downloads the full-sequence form of the required benchmark, splitted into train and test sets, one folder for each class. If not specified otherwise, the data will be stored in `.genomic_benchmarks` subfolder of your home directory. By default, the dataset is downloaded from our cloud cache but you may choose to download all the references and re-create the benchmark (`use_cloud_cache=False`).  
+The function `download_dataset` downloads the full-sequence form of the required benchmark (splitted into train and test sets, one folder for each class). If not specified otherwise, the data will be stored in `.genomic_benchmarks` subfolder of your home directory. By default, the dataset is obtained from our cloud cache (`use_cloud_cache=True`).  
 
 ```python
   from genomic_benchmarks.loc2seq import download_dataset
@@ -20,7 +20,7 @@ The function `download_dataset` downloads the full-sequence form of the required
   download_dataset("human_nontata_promoters")
 ```
 
-You can get basic information about the benchmark with `info` function (you can get more info in [datasets](datasets/) & [docs](docs/) folders):
+You can get basic information about the benchmark with `info` function:
 
 ```python
   from genomic_benchmarks.data_check import info
@@ -28,7 +28,7 @@ You can get basic information about the benchmark with `info` function (you can 
   info("human_nontata_promoters")
 ```
 
-And getting TenforFlow Dataset object for your model training is then as easy as 
+Getting TenforFlow Dataset for the benchmark is straightforward: 
 
 ```python
   from pathlib import Path
@@ -43,6 +43,7 @@ And getting TenforFlow Dataset object for your model training is then as easy as
       batch_size=BATCH_SIZE,
       class_names=CLASSES)
 ```
+See [How_To_Train_CNN_Classifier_With_TF.ipynb](notebooks/How_To_Train_CNN_Classifier_With_TF.ipynb) for a description how to train CNN classifier with TenforFlow.
 
 ## Introduction
 
