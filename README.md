@@ -34,6 +34,22 @@ You can get basic information about the benchmark with `info` function (you can 
   info("human_nontata_promoters")
 ```
 
+And getting TenforFlow Dataset object for your model training is then as easy as 
+
+```python
+  from pathlib import Path
+  import tensorflow as tf
+
+  BATCH_SIZE = 64
+  SEQ_PATH = Path.home() / '.genomic_benchmarks' / 'human_nontata_promoters'
+  CLASSES = [x.stem for x in (SEQ_PATH/'train').iterdir() if x.is_dir()]
+
+  train_dset = tf.keras.preprocessing.text_dataset_from_directory(
+      SEQ_PATH / 'train',
+      batch_size=BATCH_SIZE,
+      class_names=CLASSES)
+```
+
 ## Structure of package
 
   * [datasets](datasets/): Each folder is one benchmark dataset (or a set of bechmarks in subfolders), see [README.md](datasets/README.md) for the format specification
