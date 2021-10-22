@@ -18,6 +18,12 @@ See [README.md](torch_cnn_experiments/README.md).
 papermill tf_cnn_classifier.ipynb tf_cnn_experiments/[DATASET NAME].ipynb -p DATASET [DATASET NAME]
 ```
 
+To add another TF papermill script:
+
+  * create a notebook in this folder
+  * all parameters should be specified in one cell in the beginning of the notebook, tag it `parameters` as described [here](https://github.com/nteract/papermill#parameterizing-a-notebook)
+  * run experiments using papermill for all benchmark datasets
+
 ## Results
 
 ### PyTorch CNN
