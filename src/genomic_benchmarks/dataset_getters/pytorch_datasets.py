@@ -74,5 +74,5 @@ def DemoMouseEnhancers(split, force_download=False, version=None):
     return GenomicClfDataset('demo_mouse_enhancers', split, force_download, version)
 
 
-def DemoHumanNontataPromoters(split, force_download=False, version=None):
+def HumanNontataPromoters(split, force_download=False, version=None):
     return GenomicClfDataset('human_nontata_promoters', split, force_download, version)
