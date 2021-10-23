@@ -35,7 +35,7 @@ Getting TensorFlow Dataset for the benchmark is straightforward:
   import tensorflow as tf
 
   BATCH_SIZE = 64
-  SEQ_PATH = Path.home() / '.genomic_benchmarks' / 'human_nontata_promoters' / 'train'
+  SEQ_TRAIN_PATH = Path.home() / '.genomic_benchmarks' / 'human_nontata_promoters' / 'train'
   CLASSES = ['negative', 'positive']
 
   train_dset = tf.keras.preprocessing.text_dataset_from_directory(

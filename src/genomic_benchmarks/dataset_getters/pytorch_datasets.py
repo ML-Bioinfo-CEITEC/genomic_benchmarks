@@ -70,9 +70,21 @@ def DemoCodingVsIntergenomicSeqs(split, force_download=False, version=None):
     return GenomicClfDataset('demo_coding_vs_intergenomic_seqs', split, force_download, version)
 
 
+def DemoHumanOrWorm(split, force_download=False, version=None):
+    return GenomicClfDataset('demo_human_or_worm', split, force_download, version)
+
+
 def DemoMouseEnhancers(split, force_download=False, version=None):
     return GenomicClfDataset('demo_mouse_enhancers', split, force_download, version)
 
 
-def DemoHumanNontataPromoters(split, force_download=False, version=None):
+def HumanEnhancersCohn(split, force_download=False, version=None):
+    return GenomicClfDataset('human_enhancers_cohn', split, force_download, version)
+
+
+def HumanEnhancersEnsembl(split, force_download=False, version=None):
+    return GenomicClfDataset('human_enhancers_ensembl', split, force_download, version)
+
+
+def HumanNontataPromoters(split, force_download=False, version=None):
     return GenomicClfDataset('human_nontata_promoters', split, force_download, version)
