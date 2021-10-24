@@ -33,11 +33,9 @@ To add another TF papermill script:
 |demo_coding_vs_intergenomic_seqs|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|87.3|
 |human_nontata_promoters|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|83.7|
 |demo_mouse_enhancers|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|74.4|
-
-|demo_human_or_worm|0|SimpleCNN|913dab1313f4faefe400d2e6881659bf6c88da73|92.7|
-|human_enhancers_cohn|0|SimpleCNN|913dab1313f4faefe400d2e6881659bf6c88da73|69.6|
-
-|human_enhancers_ensembl|0|SimpleCNN||79.8|
+|demo_human_or_worm|0|SimpleCNN|03c4658dbfb533fbf030e28df88ca76da9eca811|92.7|
+|human_enhancers_cohn|0|SimpleCNN|03c4658dbfb533fbf030e28df88ca76da9eca811|69.6|
+|human_enhancers_ensembl|0|SimpleCNN|03c4658dbfb533fbf030e28df88ca76da9eca811|79.8|
 
 
 ### TensorFlow CNN
