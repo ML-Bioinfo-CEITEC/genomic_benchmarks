@@ -35,9 +35,9 @@ To add another TF papermill script:
 |demo_mouse_enhancers|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|74.4|
 
 |demo_human_or_worm|0|SimpleCNN|913dab1313f4faefe400d2e6881659bf6c88da73|92.7|
-|human_enhancers_cohn|0|SimpleCNN|913dab1313f4faefe400d2e6881659bf6c88da73|67.1|
+|human_enhancers_cohn|0|SimpleCNN|913dab1313f4faefe400d2e6881659bf6c88da73|69.6|
 
-|human_enhancers_ensembl|0|SimpleCNN|||
+|human_enhancers_ensembl|0|SimpleCNN||79.8|
 
 
 ### TensorFlow CNN
