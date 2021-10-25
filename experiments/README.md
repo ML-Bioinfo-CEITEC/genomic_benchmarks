@@ -15,7 +15,7 @@ See [README.md](torch_cnn_experiments/README.md).
 ### TensorFlow
 
 ```bash
-papermill tf_cnn_classifier.ipynb tf_cnn_experiments/[DATASET NAME].ipynb -p DATASET [DATASET NAME]
+papermill utils/tf_cnn_classifier.ipynb tf_cnn_experiments/[DATASET NAME].ipynb -p DATASET [DATASET NAME]
 ```
 
 To add another TF papermill script:
