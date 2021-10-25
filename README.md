@@ -6,55 +6,74 @@ In this repository, we collect benchmarks for classification of genomic sequence
 Genomic benchmarks can be installed as follows:
 
 ```bash
-   git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
-   cd genomic_benchmarks
-   pip install --editable .
+git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
+cd genomic_benchmarks
+pip install --editable .
 
-   # if you want to train NN with TF
-   pip install tensorflow>=2.6.0
-   pip install typing-extensions --upgrade  # fixing TF installation issue
+# if you want to train NN with TF
+pip install tensorflow>=2.6.0
+pip install typing-extensions --upgrade  # fixing TF installation issue
 
-   # if you want to train NN with torch
-   pip install torch>=1.9.0
+# if you want to train NN with torch
+pip install torch>=1.9.0
 
 ```
 
 For the package development, use Python 3.8 (ideally 3.8.9).
 
 ## Usage
-
-The function `download_dataset` downloads the full-sequence form of the required benchmark (splitted into train and test sets, one folder for each class). If not specified otherwise, the data will be stored in `.genomic_benchmarks` subfolder of your home directory. By default, the dataset is obtained from our cloud cache (`use_cloud_cache=True`).  
+Get the list of all datasets with the `list_datasets` function
 
 ```python
-  from genomic_benchmarks.loc2seq import download_dataset
-  
-  download_dataset("human_nontata_promoters", version=0)
+from genomic_benchmarks.data_check import list_datasets
+
+print(list_datasets)
 ```
 
 You can get basic information about the benchmark with `info` function:
 
 ```python
-  from genomic_benchmarks.data_check import info
-  
-  info("human_nontata_promoters", version=0)
+from genomic_benchmarks.data_check import info
+
+info("human_nontata_promoters", version=0)
 ```
 
-Getting TensorFlow Dataset for the benchmark is straightforward: 
+The function `download_dataset` downloads the full-sequence form of the required benchmark (splitted into train and test sets, one folder for each class). If not specified otherwise, the data will be stored in `.genomic_benchmarks` subfolder of your home directory. By default, the dataset is obtained from our cloud cache (`use_cloud_cache=True`). 
 
 ```python
-  from pathlib import Path
-  import tensorflow as tf
+from genomic_benchmarks.loc2seq import download_dataset
 
-  BATCH_SIZE = 64
-  SEQ_TRAIN_PATH = Path.home() / '.genomic_benchmarks' / 'human_nontata_promoters' / 'train'
-  CLASSES = ['negative', 'positive']
+download_dataset("human_nontata_promoters", version=0)
+```
 
-  train_dset = tf.keras.preprocessing.text_dataset_from_directory(
-      directory=SEQ_TRAIN_PATH,
-      batch_size=BATCH_SIZE,
-      class_names=CLASSES)
+Getting TensorFlow Dataset for the benchmark and displaying samples is straightforward: 
+
+```python
+from pathlib import Path
+import tensorflow as tf
+
+BATCH_SIZE = 64
+SEQ_TRAIN_PATH = Path.home() / '.genomic_benchmarks' / 'human_nontata_promoters' / 'train'
+CLASSES = ['negative', 'positive']
+
+train_dset = tf.keras.preprocessing.text_dataset_from_directory(
+    directory=SEQ_TRAIN_PATH,
+    batch_size=BATCH_SIZE,
+    class_names=CLASSES)
+
+print(list(train_dset)[0])
 ```
 See [How_To_Train_CNN_Classifier_With_TF.ipynb](notebooks/How_To_Train_CNN_Classifier_With_TF.ipynb) for more detailed description how to train CNN classifier with TensorFlow.
+
+Getting Pytorch Dataset and displaying samples is also easy:
+```python
+from genomic_benchmarks.dataset_getters.pytorch_datasets import HumanNontataPromoters
+
+dset = HumanNontataPromoters(split='train', version=0)
+print(dset[0])
+```
+See [How_To_Train_CNN_Classifier_With_Pytorch.ipynb](notebooks/How_To_Train_CNN_Classifier_With_Pytorch.ipynb) for more detailed description how to train CNN classifier with Pytorch.
+
 
 ## Introduction
 
