@@ -99,8 +99,7 @@ def _check_dataset_existence(interval_list_dataset, version):
 
 def _get_dataset_name(path):
     # get the dataset name from the path
-    path = str(path)
-    return path.split('/')[-1] if not path.endswith('/') else path.split('/')[-2]
+    return Path(path).stem
 
 def _download_references(metadata, cache_path, force=False):
     # download all references from the metadata into cache_path folder
