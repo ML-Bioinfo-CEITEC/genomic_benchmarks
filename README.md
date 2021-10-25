@@ -8,7 +8,7 @@ Genomic benchmarks can be installed as follows:
 ```
    git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
    cd genomic_benchmarks
-   python setup.py develop
+   pip install --editable ./
 ```
 ## Usage
 
