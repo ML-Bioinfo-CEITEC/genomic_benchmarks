@@ -28,8 +28,10 @@ setup(
         'pyyaml>=5.3.1',
         'googledrivedownloader>=0.4', # 'gdown>=4.2.0',
         'papermill>=2.3.0',
-        'tensorflow>=2.6.0',
-        'torch>=1.9.0',
+        #'tensorflow>=2.6.0',
+        'jupyter>=1.0.0',
+        #'torch>=1.9.0',
+
     ],
     # tests_require=['pytest'],
     # cmdclass={'test': PyTest},

@@ -1,14 +1,22 @@
-# Genomic Benchmarks
+# Genomic Benchmarks 🧬🏋️✔️
 
 In this repository, we collect benchmarks for classification of genomic sequences. It is shipped as a Python package, together with functions helping to download & manipulate datasets and train NN models. 
 ## Install
 
 Genomic benchmarks can be installed as follows:
 
-```
+```bash
    git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
    cd genomic_benchmarks
    pip install --editable .
+
+   # if you want to train NN with TF
+   pip install tensorflow>=2.6.0
+   pip install typing-extensions --upgrade  # fixing TF installation issue
+
+   # if you want to train NN with torch
+   pip install torch>=1.9.0
+
 ```
 ## Usage
 
