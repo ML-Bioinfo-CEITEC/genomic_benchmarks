@@ -28,7 +28,7 @@ The function `download_dataset` downloads the full-sequence form of the required
 ```python
   from genomic_benchmarks.loc2seq import download_dataset
   
-  download_dataset("human_nontata_promoters")
+  download_dataset("human_nontata_promoters", version=0)
 ```
 
 You can get basic information about the benchmark with `info` function:
@@ -36,7 +36,7 @@ You can get basic information about the benchmark with `info` function:
 ```python
   from genomic_benchmarks.data_check import info
   
-  info("human_nontata_promoters")
+  info("human_nontata_promoters", version=0)
 ```
 
 Getting TensorFlow Dataset for the benchmark is straightforward: 
