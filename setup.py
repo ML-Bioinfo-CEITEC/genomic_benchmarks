@@ -17,7 +17,7 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     scripts=[],
-    # setup_requires=['pytest-runner'],
+    # setup_requires=['pytest-runner'], setup_requires deprecated in v58.3.0
     install_requires=[
         'biopython>=1.79',
         'requests>=2.25',
