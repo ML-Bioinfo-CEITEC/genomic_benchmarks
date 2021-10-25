@@ -31,11 +31,11 @@ To add another TF papermill script:
 |Dataset name|version|Model name|Commit hash|Test acc|
 |---|---|---|---|---|
 |demo_coding_vs_intergenomic_seqs|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|87.3|
-|human_nontata_promoters|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|83.7|
-|demo_mouse_enhancers|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|74.4|
 |demo_human_or_worm|0|SimpleCNN|03c4658dbfb533fbf030e28df88ca76da9eca811|92.7|
+|demo_mouse_enhancers|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|74.4|
 |human_enhancers_cohn|0|SimpleCNN|03c4658dbfb533fbf030e28df88ca76da9eca811|69.6|
 |human_enhancers_ensembl|0|SimpleCNN|03c4658dbfb533fbf030e28df88ca76da9eca811|79.8|
+|human_nontata_promoters|0|SimpleCNN|7cf2bf2faa97e152032ddd01f11f5273b70ad69b|83.7|
 
 
 ### TensorFlow CNN
