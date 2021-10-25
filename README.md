@@ -18,6 +18,9 @@ Genomic benchmarks can be installed as follows:
    pip install torch>=1.9.0
 
 ```
+
+For the package development, use Python 3.8 (ideally 3.8.9).
+
 ## Usage
 
 The function `download_dataset` downloads the full-sequence form of the required benchmark (splitted into train and test sets, one folder for each class). If not specified otherwise, the data will be stored in `.genomic_benchmarks` subfolder of your home directory. By default, the dataset is obtained from our cloud cache (`use_cloud_cache=True`).  
