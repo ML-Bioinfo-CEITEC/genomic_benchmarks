@@ -85,7 +85,7 @@ def check_config(config):
         "use_padding": bool,
         "run_on_gpu": bool,
         "dataset": types.FunctionType,
-        "number_of_output_neurons": int,
+        "number_of_classes": int,
         "dataset_version": int,
         "force_download": bool,
         "epochs": int,
@@ -95,6 +95,6 @@ def check_config(config):
         "vocab_to_add": list,
     }
     
-    for key in control_config.keys():
+    for key in config.keys():
         assert isinstance(config[key], control_config[key])
     print("config is correct")

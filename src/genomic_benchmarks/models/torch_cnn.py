@@ -8,6 +8,17 @@ class CNN(nn.Module):
         
     def __init__(self, number_of_classes, vocab_size, embedding_dim, input_len):
         super(CNN, self).__init__()
+        if(number_of_classes == 2):
+            number_of_output_neurons = 1
+            loss = torch.nn.functional.binary_cross_entropy_with_logits
+            output_activation = nn.Sigmoid()
+        else:
+            raise Exception('Not implemented for number_of_classes!=2')
+            # number_of_output_neurons = number_of_classes
+            # loss = torch.nn.CrossEntropyLoss()
+            # output_activation = nn.Softmax(dim=)
+
+
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
         self.conv1 = nn.Conv1d(in_channels=embedding_dim, out_channels=16, kernel_size=8, bias=True)
         self.norm1 = nn.BatchNorm1d(16)
@@ -25,9 +36,9 @@ class CNN(nn.Module):
 #         compute output shape of conv layers   
         self.flatten = nn.Flatten()
         self.lin1 = nn.Linear(self.count_flatten_size(input_len), 512)
-        self.lin2 = nn.Linear(512, number_of_classes)
-        self.sigmoid = nn.Sigmoid()
-        self.loss = torch.nn.functional.binary_cross_entropy_with_logits
+        self.lin2 = nn.Linear(512, number_of_output_neurons)
+        self.output_activation = output_activation
+        self.loss = loss
 
     def count_flatten_size(self, input_len):        
         zeros = torch.zeros([1, input_len], dtype=torch.long)
@@ -72,7 +83,7 @@ class CNN(nn.Module):
         x = self.flatten(x)
         x = self.lin1(x) 
         x = self.lin2(x) 
-        x = self.sigmoid(x)
+        x = self.output_activation(x)
         return x
 
         
