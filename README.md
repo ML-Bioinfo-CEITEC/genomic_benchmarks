@@ -27,7 +27,7 @@ Get the list of all datasets with the `list_datasets` function
 ```python
 from genomic_benchmarks.data_check import list_datasets
 
-print(list_datasets)
+print(list_datasets())
 ```
 
 You can get basic information about the benchmark with `info` function:
