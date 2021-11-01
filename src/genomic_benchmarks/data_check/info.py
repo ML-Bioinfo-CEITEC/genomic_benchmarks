@@ -80,4 +80,4 @@ def list_datasets(dataset_path=DATASET_DIR_PATH):
     '''
 
     cache_path = Path(dataset_path)
-    return [x.name for x in dataset_path.iterdir() if x.is_dir()]
+    return [x.name for x in cache_path.iterdir() if x.is_dir()]
