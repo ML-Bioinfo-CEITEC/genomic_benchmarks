@@ -19,7 +19,7 @@ pip install torch>=1.9.0
 
 ```
 
-For the package development, use Python 3.8 (ideally 3.8.9).
+For the package development, use Python 3.8 (ideally 3.8.9) and the environment described [here](README_devel.md).
 
 ## Usage
 Get the list of all datasets with the `list_datasets` function
