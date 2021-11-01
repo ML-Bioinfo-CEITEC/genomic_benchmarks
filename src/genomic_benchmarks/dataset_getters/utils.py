@@ -5,6 +5,13 @@ from collections import Counter
 from torch.nn import ConstantPad1d
 from torchtext.vocab import vocab, build_vocab_from_iterator
 
+    
+VARIABLE_LENGTH_DATASETS = [
+    "demo_human_or_worm",
+    "human_enhancers_ensembl",
+    "demo_mouse_enhancers",
+]
+
 
 def coll_factory(vocab, tokenizer, device='cpu', pad_to_length=None):
     def coll(batch):
