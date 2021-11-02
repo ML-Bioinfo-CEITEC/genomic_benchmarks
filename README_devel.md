@@ -35,3 +35,7 @@ If `pylint` and `flake8` were not yet installed in your Python  environment, aft
 After clicking on Install buttons, linters will be automatically installed. To check that you have multiple linters selected, go to Command Palette (`Cmd-Shift-P` or `View -> Command Palette`), select `Python: Select Linter` and you should get `current: multiple selected` as below
 
 ![Linters Selection](/assets/img/Screenshot_linters_selection.png)
+
+### Formatters
+
+We use `black` and `isort` to auto-format on `Save`. VS Code setting is provided in [settings.json](.vscode/settings.json) file. (You will need to install those two packages.)
