@@ -22,6 +22,8 @@ Install Python 3.8.9, create a new virtual environment and activate it. Clone th
 
 ### Python
 
+Install VS Code [Python Extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python): use Ctrl-Shift-x to open MarketPlace, search for Python Extension, and install it.
+
 To select Python interpreter, activate Command Palette (`Cmd-Shift-P` or `View -> Command Palette`) and select `Python: Select Interpreter`. You should see a virtual environment you created in previous step.
 
 ### Linters
@@ -42,4 +44,4 @@ We use `black` and `isort` to auto-format on `Save`. VS Code setting is provided
 
 ### Docstrings
 
-We use `Python Docstring Generator` extension to help us with writing useful and well formated documentation. Install this extension from VS Code Extensions Marketplace. VS Code settings are already provided in [settings.json](.vscode/settings.json) file. For now, we use [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) docstring format.
+We use [Python Docstring Generator](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring) extension to help us with writing useful and well formated documentation. Install this extension from VS Code Extensions Marketplace (Ctrl-Shift-x). VS Code settings are already provided in [settings.json](.vscode/settings.json) file. For now, we use [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) docstring format. Keyboard shortcut: Ctrl+Shift+2.
