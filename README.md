@@ -15,7 +15,8 @@ pip install tensorflow>=2.6.0
 pip install typing-extensions --upgrade  # fixing TF installation issue
 
 # if you want to train NN with torch
-pip install torch>=1.9.0
+pip install torch>=1.10.0
+pip install torchtext
 
 ```
 

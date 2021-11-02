@@ -26,23 +26,7 @@ To select Python interpreter, activate Command Palette (`Cmd-Shift-P` or `View -
 
 ### Linters
 
-We use `pylint` (PEP8) and `flake8`. To use multiple linters, it is easier to edit `settings.json` file directly. 
-
-On linux, the file is located at `$HOME/.config/Code/User/settings.json`, for other systems find the location [here](https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations).
-
-Add the following block at the beginning
-
-```json
-{
-    "python.linting.pylintEnabled": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
-    "python.linting.flake8Args": [
-        "--max-line-length=150",
-        "--ignore=E402,F841,F401,E302,E305"
-    ],
-    ...
-```
+We use `pylint` (PEP8) and `flake8`. VS Code setting is provided in [settings.json](.vscode/settings.json) file. 
 
 If `pylint` and `flake8` were not yet installed in your Python  environment, after restarting VS Code and opening any Python file, you should see the following dialog in the bottom right corner:
 
