@@ -87,11 +87,7 @@ See [How_To_Train_CNN_Classifier_With_Pytorch.ipynb](notebooks/How_To_Train_CNN_
   * [experiments](experiments/): Training a simple neural network model(s) for each benchmark dataset, can be used as a baseline
   * [notebooks](notebooks/): Main use-cases demonstrated in a form of Jupyter notebooks 
   * [src/genomic_benchmarks](src/genomic_benchmarks/): Python module for datasets manipulation (downlading, checking, etc.)
-  * [tests](tests/): Unit tests
-
-## Tests
-
-TBD
+  * [tests](tests/): Unit tests for `pytest` and `pytest-cov`
 
 ## How to contribute
 
