@@ -39,3 +39,7 @@ After clicking on Install buttons, linters will be automatically installed. To c
 ### Formatters
 
 We use `black` and `isort` to auto-format on `Save`. VS Code setting is provided in [settings.json](.vscode/settings.json) file. (You will need to install those two packages.)
+
+### Docstrings
+
+We use `Python Docstring Generator` extension to help us with writing useful and well formated documentation. Install this extension from VS Code Extensions Marketplace. VS Code settings are already provided in [settings.json](.vscode/settings.json) file. For now, we use [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) docstring format.

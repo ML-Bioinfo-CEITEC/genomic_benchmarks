@@ -20,5 +20,6 @@
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
         }
-    }
+    },
+    "autoDocstring.docstringFormat": "numpy"
 }
