@@ -14,7 +14,8 @@ Install Python 3.8.9, create a new virtual environment and activate it. Clone th
    pip install tensorflow>=2.6.0
    pip install typing-extensions --upgrade  # fixing TF installation issue
 
-   pip install torch>=1.9.0
+   pip install torch>=1.10.0
+   pip install torchtext
 ```
 
 ## VS Code Settings
