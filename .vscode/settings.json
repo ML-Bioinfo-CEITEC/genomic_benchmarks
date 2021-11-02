@@ -16,6 +16,7 @@
         "black"
     ],
     "[python]": {
+        "files.trimTrailingWhitespace": true,
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
         }
