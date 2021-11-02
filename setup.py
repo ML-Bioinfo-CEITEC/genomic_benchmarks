@@ -31,10 +31,8 @@ setup(
         #'tensorflow>=2.6.0',
         'jupyter>=1.0.0',
         #'torch>=1.9.0',
-
     ],
-    # tests_require=['pytest'],
-    # cmdclass={'test': PyTest},
+    tests_require=['pytest'],
     include_package_data=True,
     package_data={},
     classifiers=[
@@ -43,13 +41,10 @@ setup(
         # Define that your audience are developers
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: MIT License',   # Again, pick a license
+        'License :: OSI Approved :: MIT License',
         # Specify which pyhton versions that you want to support
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
 )
