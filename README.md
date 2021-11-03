@@ -3,9 +3,10 @@
 In this repository, we collect benchmarks for classification of genomic sequences. It is shipped as a Python package, together with functions helping to download & manipulate datasets and train NN models. 
 ## Install
 
-Genomic benchmarks can be installed as follows:
+Genomic Benchmarks can be installed as follows:
 
 ```bash
+# maintained for and tested on Python version 3.8
 git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
 cd genomic_benchmarks
 pip install --editable .
