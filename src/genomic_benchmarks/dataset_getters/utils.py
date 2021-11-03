@@ -62,6 +62,8 @@ def build_vocab(dataset, tokenizer, use_padding):
     builded_voc = vocab(counter)
     if(use_padding):
         builded_voc.append_token('<pad>')
+    builded_voc.insert_token('<unk>', 0)
+    builded_voc.set_default_index(0)
     return builded_voc
 
 # todo: why build fn does not work as expected (iterator argument)
@@ -91,17 +93,14 @@ def check_config(config):
     control_config = {
         "use_padding": bool,
         "run_on_gpu": bool,
-        "dataset": types.FunctionType,
+        "dataset": str,
         "number_of_classes": int,
         "dataset_version": int,
         "force_download": bool,
         "epochs": int,
         "embedding_dim": int,
         "batch_size": int,
-    #   vocabulary that is not present in the training set but is present in the test set
-        "vocab_to_add": list,
     }
     
     for key in config.keys():
-        assert isinstance(config[key], control_config[key])
-    print("config is correct")
+        assert isinstance(config[key], control_config[key]), '"{}" in config should be of type {} but is {}'.format(key, control_config[key], type(config[key]))
