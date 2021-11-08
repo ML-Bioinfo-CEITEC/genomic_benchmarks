@@ -1,11 +1,11 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name='genomic_benchmarks',
-    version='0.0.1',
+    version='0.0.2',
     description='Genomic Benchmarks',
     long_description=long_description,
     long_description_content_type="text/markdown",
