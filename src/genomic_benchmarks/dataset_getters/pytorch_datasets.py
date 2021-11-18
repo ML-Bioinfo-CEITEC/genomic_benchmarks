@@ -1,5 +1,6 @@
 from genomic_benchmarks.data_check import is_downloaded
-from genomic_benchmarks.loc2seq.with_biopython import CACHE_PATH, download_dataset
+from genomic_benchmarks.loc2seq import download_dataset
+from genomic_benchmarks.utils.paths import CACHE_PATH
 from torch.utils.data import Dataset
 
 

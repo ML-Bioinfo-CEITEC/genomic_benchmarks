@@ -1,1 +1,1 @@
-from .with_biopython import fasta2loc
+from .seq2loc import fasta2loc

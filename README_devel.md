@@ -11,6 +11,9 @@ Install Python 3.8.9, create a new virtual environment and activate it. Clone th
    cd genomic_benchmarks
    pip install --editable .
 
+   pip install jupyter>=1.0.0
+   pip install papermill>=2.3.0
+
    pip install tensorflow>=2.6.0
    pip install typing-extensions --upgrade  # fixing TF installation issue
 

@@ -20,6 +20,10 @@ git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
 cd genomic_benchmarks
 pip install --editable .
 
+# if you want to use jupyter and papermill
+pip install jupyter>=1.0.0
+pip install papermill>=2.3.0
+
 # if you want to train NN with TF
 pip install tensorflow>=2.6.0
 pip install typing-extensions --upgrade  # fixing TF installation issue
