@@ -20,7 +20,7 @@ setup(
     # setup_requires=['pytest-runner'], setup_requires deprecated in v58.3.0
     install_requires=[
         "biopython>=1.79",
-        "requests>=2.25",
+        "requests>=2.23.0",
         "pip>=20.0.1",
         "numpy>=1.17.0",
         "pandas>=1.1.4",
