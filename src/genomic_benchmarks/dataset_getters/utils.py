@@ -13,24 +13,24 @@ VARIABLE_LENGTH_DATASETS = [
 ]
 
 
-# def coll_factory(vocab, tokenizer, device="cpu", pad_to_length=None):
-#     def coll(batch):
-#         xs, ys = [], []
-#
-#        for text, label in batch:
-#            ys.append(torch.tensor([label], dtype=torch.float32))
-#            x = torch.tensor([vocab[token] for token in tokenizer(text)], dtype=torch.long)
-#            if pad_to_length != None:
-#                PAD_IDX = vocab["<pad>"]
-#                pad = ConstantPad1d((0, pad_to_length - len(x)), PAD_IDX)
-#                x = torch.tensor(pad(x), dtype=torch.long)
-#            xs.append(x)
-#
-#        xs = torch.stack(xs)
-#        ys = torch.stack(ys)
-#        return xs.to(device), ys.to(device)
-#
-#    return coll
+def coll_factory(vocab, tokenizer, device="cpu", pad_to_length=None):
+    def coll(batch):
+        xs, ys = [], []
+
+        for text, label in batch:
+            ys.append(torch.tensor([label], dtype=torch.float32))
+            x = torch.tensor([vocab[token] for token in tokenizer(text)], dtype=torch.long)
+            if pad_to_length != None:
+                PAD_IDX = vocab["<pad>"]
+                pad = ConstantPad1d((0, pad_to_length - len(x)), PAD_IDX)
+                x = torch.tensor(pad(x), dtype=torch.long)
+            xs.append(x)
+
+        xs = torch.stack(xs)
+        ys = torch.stack(ys)
+        return xs.to(device), ys.to(device)
+
+    return coll
 
 
 #             torch.nn.functional.pad(
