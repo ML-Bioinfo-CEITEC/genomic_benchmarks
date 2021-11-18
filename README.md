@@ -40,52 +40,67 @@ For the package development, use Python 3.8 (ideally 3.8.9) and the environment 
 Get the list of all datasets with the `list_datasets` function
 
 ```python
-from genomic_benchmarks.data_check import list_datasets
-
-print(list_datasets())
+>>> from genomic_benchmarks.data_check import list_datasets
+>>> 
+>>> list_datasets()
+['demo_coding_vs_intergenomic_seqs', 'demo_mouse_enhancers', 'human_nontata_promoters', 'human_enhancers_cohn', 'demo_human_or_worm', 'human_enhancers_ensembl']
 ```
 
 You can get basic information about the benchmark with `info` function:
 
 ```python
-from genomic_benchmarks.data_check import info
+>>> from genomic_benchmarks.data_check import info
+>>> 
+>>> info("human_nontata_promoters", version=0)
+Dataset `human_nontata_promoters` has 2 classes: negative, positive.
 
-info("human_nontata_promoters", version=0)
+All lenghts of genomic intervals equals 251.
+
+Totally 36131 sequences have been found, 27097 for training and 9034 for testing.
+          train  test
+negative  12355  4119
+positive  14742  4915
 ```
 
 The function `download_dataset` downloads the full-sequence form of the required benchmark (splitted into train and test sets, one folder for each class). If not specified otherwise, the data will be stored in `.genomic_benchmarks` subfolder of your home directory. By default, the dataset is obtained from our cloud cache (`use_cloud_cache=True`). 
 
 ```python
-from genomic_benchmarks.loc2seq import download_dataset
-
-download_dataset("human_nontata_promoters", version=0)
+>>> from genomic_benchmarks.loc2seq import download_dataset
+>>> 
+>>> download_dataset("human_nontata_promoters", version=0)
+Downloading 1VdUg0Zu8yfLS6QesBXwGz1PIQrTW3Ze4 into /home/petr/.genomic_benchmarks/human_nontata_promoters.zip... Done.
+Unzipping...Done.
+PosixPath('/home/petr/.genomic_benchmarks/human_nontata_promoters')
 ```
 
 Getting TensorFlow Dataset for the benchmark and displaying samples is straightforward: 
 
 ```python
-from pathlib import Path
-import tensorflow as tf
-
-BATCH_SIZE = 64
-SEQ_TRAIN_PATH = Path.home() / '.genomic_benchmarks' / 'human_nontata_promoters' / 'train'
-CLASSES = ['negative', 'positive']
-
-train_dset = tf.keras.preprocessing.text_dataset_from_directory(
-    directory=SEQ_TRAIN_PATH,
-    batch_size=BATCH_SIZE,
-    class_names=CLASSES)
-
-print(list(train_dset)[0])
+>>> from pathlib import Path
+>>> import tensorflow as tf
+>>> 
+>>> BATCH_SIZE = 64
+>>> SEQ_TRAIN_PATH = Path.home() / '.genomic_benchmarks' / 'human_nontata_promoters' / 'train'
+>>> CLASSES = ['negative', 'positive']
+>>> 
+>>> train_dset = tf.keras.preprocessing.text_dataset_from_directory(
+...     directory=SEQ_TRAIN_PATH,
+...     batch_size=BATCH_SIZE,
+...     class_names=CLASSES)
+Found 27097 files belonging to 2 classes.
+>>> 
+>>> list(train_dset)[0][0][0]
+<tf.Tensor: shape=(), dtype=string, numpy=b'TCCTGCCTTTCCACTTGCACCAGTTTTCCCACCCCAGCCTCAGGGCGGGGCTGCCTCGTCACTTGTCTCGGGGCAGATCTGCCCTACACACGTTAGCGCCGCGCGCAAAGCAGCCCCGCAGCACCCAGGCGCCTCCTGGCGGCGCCGCGAAGGGGCGGGGCTGTCGGCTGCGCGTTGTGCGCTGTCCCAGGTTGGAAACCAGTGCCCCAGGCGGCGAGGAGAGCGGTGCCTTGCAGGGATGCTGCGGGCGG'>
 ```
 See [How_To_Train_CNN_Classifier_With_TF.ipynb](notebooks/How_To_Train_CNN_Classifier_With_TF.ipynb) for more detailed description how to train CNN classifier with TensorFlow.
 
 Getting Pytorch Dataset and displaying samples is also easy:
 ```python
-from genomic_benchmarks.dataset_getters.pytorch_datasets import HumanNontataPromoters
-
-dset = HumanNontataPromoters(split='train', version=0)
-print(dset[0])
+>>> from genomic_benchmarks.dataset_getters.pytorch_datasets import HumanNontataPromoters
+>>> 
+>>> dset = HumanNontataPromoters(split='train', version=0)
+>>> dset[0]
+('CAATCTCACAGGCTCCTGGTTGTCTACCCATGGACCCAGAGGTTCTTTGACAGCTTTGGCAACCTGTCCTCTGCCTCTGCCATCATGGGCAACCCCAAAGTCAAGGCACATGGCAAGAAGGTGCTGACTTCCTTGGGAGATGCCATAAAGCACCTGGATGATCTCAAGGGCACCTTTGCCCAGCTGAGTGAACTGCACTGTGACAAGCTGCATGTGGATCCTGAGAACTTCAAGGTGAGTCCAGGAGATGT', 0)
 ```
 See [How_To_Train_CNN_Classifier_With_Pytorch.ipynb](notebooks/How_To_Train_CNN_Classifier_With_Pytorch.ipynb) for more detailed description how to train CNN classifier with Pytorch.
 
