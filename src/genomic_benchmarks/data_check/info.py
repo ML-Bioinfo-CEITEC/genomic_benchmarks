@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from genomic_benchmarks.loc2seq.cloud_caching import CLOUD_CACHE
 from genomic_benchmarks.utils.datasets import (
     _check_dataset_existence,
     _get_dataset_name,
@@ -12,7 +13,7 @@ from genomic_benchmarks.utils.paths import CACHE_PATH, DATASET_DIR_PATH
 # TODO: Many of these functions are not prepared for the case when the folder in DATASET_DIR_PATH is not one benchmark but a set of benchmarks.
 
 
-def info(interval_list_dataset, version=None):
+def info(interval_list_dataset, version=None, local_repo: bool = False):
     """
     Print info about the bechmark.
 
@@ -23,16 +24,16 @@ def info(interval_list_dataset, version=None):
                     DataFrame with counts of seqeunces for each class in a training and testing sets.
     """
 
-    interval_list_dataset = _guess_location(interval_list_dataset)
-    metadata = _check_dataset_existence(interval_list_dataset, version)
+    interval_list_dataset = _guess_location(interval_list_dataset, local_repo)
+    metadata = _check_dataset_existence(interval_list_dataset, version, local_repo)
     dataset_name = _get_dataset_name(interval_list_dataset)
 
     dfs = {}
     for c in metadata["classes"]:
         dfs[c] = {}
         for t in ["train", "test"]:
-            dt_filename = Path(interval_list_dataset) / t / (c + ".csv.gz")
-            dfs[c][t] = pd.read_csv(dt_filename, compression="gzip")
+            dt_filename = interval_list_dataset / t / (c + ".csv.gz")
+            dfs[c][t] = pd.read_csv(str(dt_filename), compression="gzip")
 
     classes = list(dfs.keys())
     print(f"Dataset `{dataset_name}` has {len(classes)} classes: " + ", ".join(classes) + ".\n")
@@ -77,7 +78,7 @@ def is_downloaded(interval_list_dataset, cache_path=CACHE_PATH):
     return cache_path.exists()
 
 
-def list_datasets(dataset_path=DATASET_DIR_PATH):
+def list_datasets(dataset_path=DATASET_DIR_PATH, local_repo: bool = False):
     """
     List all interval datasets in the package.
 
@@ -88,5 +89,8 @@ def list_datasets(dataset_path=DATASET_DIR_PATH):
                     list: List of dataset names.
     """
 
-    cache_path = Path(dataset_path)
-    return [x.name for x in cache_path.iterdir() if x.is_dir()]
+    if local_repo:
+        cache_path = Path(dataset_path)
+        return [x.name for x in cache_path.iterdir() if x.is_dir()]
+    else:
+        return list({x[0] for x in CLOUD_CACHE})

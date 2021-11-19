@@ -27,6 +27,7 @@ setup(
         "tqdm>=4.41.1",
         "pyyaml>=5.3.1",
         "googledrivedownloader>=0.4",  # 'gdown>=4.2.0',
+        "yarl",
         #'papermill>=2.3.0',
         #'tensorflow>=2.6.0',
         #'jupyter>=1.0.0',

@@ -19,7 +19,13 @@ from .cloud_caching import CLOUD_CACHE, download_from_cloud_cache
 
 
 def download_dataset(
-    interval_list_dataset, version=None, dest_path=CACHE_PATH, cache_path=REF_CACHE_PATH, force_download=False, use_cloud_cache=True
+    interval_list_dataset,
+    version=None,
+    dest_path=CACHE_PATH,
+    cache_path=REF_CACHE_PATH,
+    force_download=False,
+    use_cloud_cache=True,
+    local_repo=False,
 ):
     """
     Transform an interval-list genomic dataset into a full-seq genomic dataset.
@@ -31,13 +37,14 @@ def download_dataset(
                     cache_path (str or Path): Folder to store the downloaded references.
                     force_download (bool): If True, force downloading of references.
                     use_cloud_cache (bool): If True, use the cloud cache for downloading a full-seq genomic datasets.
+                    local_repo (bool): If True, use the local repo for getting interval-list genomic datasets.
 
             Returns:
                     seq_dataset_path (Path): Path to the full-seq dataset.
     """
 
-    interval_list_dataset = _guess_location(interval_list_dataset)
-    metadata = _check_dataset_existence(interval_list_dataset, version)
+    interval_list_dataset = _guess_location(interval_list_dataset, local_repo)
+    metadata = _check_dataset_existence(interval_list_dataset, version, local_repo)
     dataset_name = _get_dataset_name(interval_list_dataset)
 
     if version is None:
@@ -55,8 +62,8 @@ def download_dataset(
 
     for c in metadata["classes"]:
         for t in ["train", "test"]:
-            dt_filename = Path(interval_list_dataset) / t / (c + ".csv.gz")
-            dt = pd.read_csv(dt_filename, compression="gzip")
+            dt_filename = interval_list_dataset / t / (c + ".csv.gz")
+            dt = pd.read_csv(str(dt_filename), compression="gzip")
 
             ref_name = _get_reference_name(metadata["classes"][c]["url"])
             dt["seq"] = _fill_seq_column(fastas[ref_name], dt)
