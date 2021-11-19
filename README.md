@@ -15,16 +15,7 @@ We have collected a list of genomic datasets and are now organizing the ML hacka
 Genomic Benchmarks can be installed as follows:
 
 ```bash
-# maintained for and tested on Python version 3.8
-git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
-cd genomic_benchmarks
-pip install --editable .
-```
-
-or, alternatively,
-
-```bash
-pip install git+https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
+pip install genomic-benchmarks
 ```
 
 To use it with papermill, TF or pytorch, install the corresponding dependencies:
@@ -44,7 +35,7 @@ pip install torchtext
 
 ```
 
-For the package development, use Python 3.8 (ideally 3.8.9) and the environment described [here](README_devel.md).
+For the package development, use Python 3.8 (ideally 3.8.9) and the installation described [here](README_devel.md).
 
 ## Usage
 Get the list of all datasets with the `list_datasets` function
