@@ -94,3 +94,13 @@ def list_datasets(dataset_path=DATASET_DIR_PATH, local_repo: bool = False):
         return [x.name for x in cache_path.iterdir() if x.is_dir()]
     else:
         return list({x[0] for x in CLOUD_CACHE})
+
+
+def labels_in_order(dset_name):
+    dir_path = CACHE_PATH / dset_name
+    true_labels = []
+    for j in Path(dir_path / "test" / "negative").iterdir():
+        true_labels.append(0)
+    for j in Path(dir_path / "test" / "positive").iterdir():
+        true_labels.append(1)
+    return true_labels
