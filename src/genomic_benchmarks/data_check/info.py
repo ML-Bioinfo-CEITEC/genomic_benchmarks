@@ -99,8 +99,7 @@ def list_datasets(dataset_path=DATASET_DIR_PATH, local_repo: bool = False):
 def labels_in_order(dset_name):
     dir_path = CACHE_PATH / dset_name
     true_labels = []
-    for j in Path(dir_path / "test" / "negative").iterdir():
-        true_labels.append(0)
-    for j in Path(dir_path / "test" / "positive").iterdir():
-        true_labels.append(1)
+    for i, label_path in enumerate(Path(dir_path / "test").iterdir()):
+        for j in label_path.iterdir():
+            true_labels.append(i)
     return true_labels
