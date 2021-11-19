@@ -19,7 +19,17 @@ Genomic Benchmarks can be installed as follows:
 git clone https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
 cd genomic_benchmarks
 pip install --editable .
+```
 
+or, alternatively,
+
+```bash
+pip install git+https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks.git
+```
+
+To use it with papermill, TF or pytorch, install the corresponding dependencies:
+
+```bash
 # if you want to use jupyter and papermill
 pip install jupyter>=1.0.0
 pip install papermill>=2.3.0
