@@ -96,6 +96,7 @@ def list_datasets(dataset_path=DATASET_DIR_PATH, local_repo: bool = False):
         return list({x[0] for x in CLOUD_CACHE})
 
 
+# TODO: This ugly hack is deprecated and will be removed in the future.
 def labels_in_order(dset_name):
     dir_path = CACHE_PATH / dset_name
     true_labels = []
