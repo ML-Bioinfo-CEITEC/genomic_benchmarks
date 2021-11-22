@@ -27,6 +27,7 @@ pip install papermill>=2.3.0
 
 # if you want to train NN with TF
 pip install tensorflow>=2.6.0
+pip install tensorflow-addons
 pip install typing-extensions --upgrade  # fixing TF installation issue
 
 # if you want to train NN with torch

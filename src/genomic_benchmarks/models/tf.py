@@ -1,4 +1,5 @@
 import tensorflow as tf
+import tensorflow_addons as tfa
 from tensorflow.keras.layers import (
     BatchNormalization,
     Conv1D,
@@ -14,6 +15,9 @@ vectorize_layer = TextVectorization(output_mode="int", split=character_split_fn)
 
 # one-hot encoding
 onehot_layer = tf.keras.layers.Lambda(lambda x: tf.one_hot(tf.cast(x, "int64"), 4))
+
+# Binary F1 score
+binary_f1_score = tfa.metrics.F1Score(num_classes=1, threshold=0.5, average="micro")
 
 basic_cnn_model_v0 = tf.keras.Sequential(
     [
