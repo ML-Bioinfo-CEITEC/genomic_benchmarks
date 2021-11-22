@@ -1,15 +1,8 @@
+[![PyPI version](https://badge.fury.io/py/genomic-benchmarks.svg)](https://badge.fury.io/py/genomic-benchmarks) 
+
 # Genomic Benchmarks 🧬🏋️✔️
 
 In this repository, we collect benchmarks for classification of genomic sequences. It is shipped as a Python package, together with functions helping to download & manipulate datasets and train NN models. 
-
-## Hackathon 2021-11-19
-
-We have collected a list of genomic datasets and are now organizing the ML hackathon to train classifiers over them. Would you join us on Friday, [November 19, 2021, 15:00 CET](https://www.timeanddate.com/worldclock/converter.html?iso=20211119T140000&p1=204&p2=136&p3=179&p4=224&p5=33&p6=176&p7=248) at [CEITEC MU](https://www.ceitec.cz/), Brno, Czechia 🇨🇿🇪🇺, or remotely? Free refreshment for all participants, swag for the winners. The event is both competitive (to prove your ML models are the best) and a learning opportunity (we will provide all the help we can). 
-
-* Final datasets and evaluation metrics will be provided on the day of the hackathon. In principle, they will be similar to datasets currently included in this package.
-* You can participate both in person at CEITEC or remotely. More information at [bit.ly/genomichackathon](https://bit.ly/genomichackathon), sign up [here](https://forms.gle/s7zoqpzXmjU6yATm6). No prior knowledge about DNA/RNA/genetics needed (you must be able to code in Python and know ML basics).
-* To participate on-site, you must be vaccinated, recovered or tested (O-N-T regulations analogical to German G3 apply). Please, bring FFP2 mask.
-
 ## Install
 
 Genomic Benchmarks can be installed as follows:

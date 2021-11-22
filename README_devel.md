@@ -22,6 +22,21 @@ Install Python 3.8.9, create a new virtual environment and activate it. Clone th
    pip install torchtext
 ```
 
+## Pushing to PyPI
+
+The package is distributed through The Python Package Index (PyPI): https://pypi.org/project/genomic-benchmarks/
+
+Instruction to upload a new version of the package to PyPI:
+
+  0. You mush have PyPI and be registered as admin of the package (ask the owner - currently Petr - to add you)
+  1. Always push the new version to GitHub and run tests before pushing to PyPI. Make sure to increase the version number in [setup.py](setup.py).
+  2. Remove `dist` subfolder if it exists and run the following
+
+  ```bash
+      python setup.py sdist
+      twine upload dist/*
+  ``` 
+
 ## VS Code Settings
 
 ### Python
