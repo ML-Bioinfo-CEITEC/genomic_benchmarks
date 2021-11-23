@@ -4,7 +4,7 @@ In this folder, we collect experimental runs of models included in `genomic_benc
 
 Each run is recorded as a notebook. Currently, TensorFlow experiments are run with [papermill](https://github.com/nteract/papermill), PyTorch experiments are run manually.
 
-See accuracy of the prediction over test sets in the table below.
+See the accuracy and F1 score on test sets in the table below.
 
 ## How to add an experiment
 
@@ -14,13 +14,21 @@ See [README.md](torch_cnn_experiments/README.md).
 
 ### TensorFlow
 
+To run one experiment:
+
 ```bash
 papermill utils/tf_cnn_classifier.ipynb tf_cnn_experiments/[DATASET NAME].ipynb -p DATASET [DATASET NAME]
 ```
 
+To run all experiments:
+
+```bash
+bash utils/run_all_tf_experiments.sh
+```
+
 To add another TF papermill script:
 
-  * create a notebook in this folder
+  * create a notebook in [utils](utils/) folder
   * all parameters should be specified in one cell in the beginning of the notebook, tag it `parameters` as described [here](https://github.com/nteract/papermill#parameterizing-a-notebook)
   * run experiments using papermill for all benchmark datasets
 
@@ -40,11 +48,11 @@ To add another TF papermill script:
 
 ### TensorFlow CNN
 
-| Dataset                          |   Loss |   Accuracy |
-|:---------------------------------|-------:|-----------:|
-| demo_coding_vs_intergenomic_seqs |  0.310 |       87.1 |
-| demo_human_or_worm               |  0.155 |       94.0 |
-| demo_mouse_enhancers             |  0.655 |       57.0 |
-| human_enhancers_cohn             |  0.581 |       70.8 |
-| human_enhancers_ensembl          |  0.423 |       81.1 |
-| human_nontata_promoters          |  0.349 |       85.2 |
+| Dataset                          |   Loss |   Accuracy |   F1 |
+|:---------------------------------|-------:|-----------:|-----:|
+| demo_coding_vs_intergenomic_seqs |  0.264 |       89.5 | 89.3 |
+| demo_human_or_worm               |  0.168 |       93.5 | 91.7 |
+| demo_mouse_enhancers             |  0.614 |       73.6 | 21.7 |
+| human_enhancers_cohn             |  0.763 |       66.6 | 74.3 |
+| human_enhancers_ensembl          |  0.428 |       80.9 | 80.2 |
+| human_nontata_promoters          |  0.513 |       79.5 | 73.3 |
