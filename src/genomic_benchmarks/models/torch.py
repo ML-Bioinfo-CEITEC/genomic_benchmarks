@@ -148,8 +148,7 @@ class CNN(nn.Module):
         print("size", size)
 
         test_loss /= num_batches
-        correct /= size
-        accuracy = 100*correct
-        print(f"Test metrics: \n Accuracy: {(accuracy):>0.1f}%, F1 score: {f1_score:>8f}, Avg loss: {test_loss:>8f} \n")
+        accuracy = correct / size
+        print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
         
-        return f1_score, accuracy
+        return accuracy, f1_score
