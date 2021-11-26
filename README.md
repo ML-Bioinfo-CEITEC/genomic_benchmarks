@@ -124,9 +124,9 @@ https://forms.gle/pvkkrgHNCNmAAC1TA
 
 ### How to contribute a dataset
 
-If you have an interesting genomic dataset, send us an issue  [an issue](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/issues) with the description and possibly link to the data (e.g. BED file and FASTQ reference). In the future, we will provide functions to make the import easy. 
+If you have an interesting genomic dataset, send us [an issue](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/issues) with the description and possibly link to the data (e.g. BED file and FASTQ reference). In the future, we will provide functions to make the import easy. 
 
-If you are a hero, read [the specification of our format](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/tree/main/datasets) and send us a pull request with new `datasets/[YOUR_DATASET_NAME]` and `docs/[YOUR_DATASET_NAME]` folders.
+If you are a hero, read [the specification of our dataset format](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/tree/main/datasets) and send us a pull request with new `datasets/[YOUR_DATASET_NAME]` and `docs/[YOUR_DATASET_NAME]` folders.
 
 
 
