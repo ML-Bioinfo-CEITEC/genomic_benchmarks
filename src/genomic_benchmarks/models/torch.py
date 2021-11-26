@@ -117,22 +117,38 @@ class CNN(nn.Module):
             print(f"Epoch {t}")
             self.train_loop(dataloader, optimizer)
 
-    def test(self, dataloader):
+# TODO: update for multiclass classification datasets
+    def test(self, dataloader, positive_label = 1):
         size = dataloader.dataset.__len__()
         num_batches = len(dataloader)
         test_loss, correct = 0, 0
+        tp, p, fp = 0, 0, 0
 
         with torch.no_grad():
             for X, y in dataloader:
                 pred = self(X)
                 test_loss += self.loss(pred, y).item()
                 correct += (torch.round(pred) == y).sum().item()
+                p += (y == positive_label).sum().item() 
+                if(positive_label == 1):
+                    tp += (y * pred).sum(dim=0).item()
+                    fp += ((1 - y) * pred).sum(dim=0).item()
+                else:
+                    tp += ((1 - y) * (1 - pred)).sum(dim=0).item()
+                    fp += (y * (1 - pred)).sum(dim=0).item()
 
-        print("test_loss ", test_loss)
+        print("p ", p, "; tp ", tp, "; fp ", fp)
+        recall = tp / p
+        precision = tp / (tp + fp)
+        print("recall ", recall, "; precision ", precision)
+        f1_score = 2 * precision * recall / (precision + recall)
+        
         print("num_batches", num_batches)
         print("correct", correct)
         print("size", size)
 
         test_loss /= num_batches
-        correct /= size
-        print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+        accuracy = correct / size
+        print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
+        
+        return accuracy, f1_score

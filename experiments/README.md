@@ -36,14 +36,14 @@ To add another TF papermill script:
 
 ### PyTorch CNN
 
-| Dataset                          |   Accuracy |
-|:---------------------------------|-----------:|
-| demo_coding_vs_intergenomic_seqs |       87.3 |
-| demo_human_or_worm               |       92.6 |
-| demo_mouse_enhancers             |       77.3 |
-| human_enhancers_cohn             |       67.1 |
-| human_enhancers_ensembl          |       80.4 |
-| human_nontata_promoters          |       81.9 |
+| Dataset                          |   Accuracy |   F1 score |
+|:---------------------------------|-----------:|-----------:|
+| demo_coding_vs_intergenomic_seqs |       86.6 |       85.5 |
+| demo_human_or_worm               |       92.7 |       92.5 |
+| demo_mouse_enhancers             |       76.4 |       71.6 |
+| human_enhancers_cohn             |       69.5 |       65.4 |
+| human_enhancers_ensembl          |       81.5 |       80.5 |
+| human_nontata_promoters          |       83   |       81.3 |
 
 
 ### TensorFlow CNN
