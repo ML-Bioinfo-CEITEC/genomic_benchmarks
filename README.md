@@ -116,4 +116,20 @@ See [How_To_Train_CNN_Classifier_With_Pytorch.ipynb](notebooks/How_To_Train_CNN_
 
 ## How to contribute
 
-TBD
+### How to contribute a model
+
+If you beat our current best model on any dataset or just came with an interesting new idea, let us know about it: Make you code publicly available (GitHub repo, Colab...) and fill in the form at
+
+https://forms.gle/pvkkrgHNCNmAAC1TA
+
+### How to contribute a dataset
+
+If you have an interesting genomic dataset, send us an issue  [an issue](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/issues) with the description and possibly link to the data (e.g. BED file and FASTQ reference). In the future, we will provide functions to make the import easy. 
+
+If you are a hero, read [the specification of our format](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/tree/main/datasets) and send us a pull request with new `datasets/[YOUR_DATASET_NAME]` and `docs/[YOUR_DATASET_NAME]` folders.
+
+
+
+### How to improve code in this package
+
+We welcome new code contributors. If you see a bug, send us [an issue](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/issues) with a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example). Or even better, fix the bug and send us a pull request. 
