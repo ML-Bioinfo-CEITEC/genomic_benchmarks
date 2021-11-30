@@ -41,10 +41,10 @@ def info(interval_list_dataset, version=None, local_repo: bool = False):
     interval_lengths = np.concatenate([(dfs[c][t].end - dfs[c][t].start).to_numpy() for c in dfs for t in dfs[c]])
 
     if len(np.unique(interval_lengths)) == 1:
-        print(f"All lenghts of genomic intervals equals {interval_lengths[0]}.\n")
+        print(f"All lengths of genomic intervals equals {interval_lengths[0]}.\n")
     else:
         print(
-            f"The lenght of genomic intervals ranges from {np.min(interval_lengths)} to {np.max(interval_lengths)}, with average {np.mean(interval_lengths)} and median {np.median(interval_lengths)}.\n"
+            f"The length of genomic intervals ranges from {np.min(interval_lengths)} to {np.max(interval_lengths)}, with average {np.mean(interval_lengths)} and median {np.median(interval_lengths)}.\n"
         )
 
     dfs_counts = {}
