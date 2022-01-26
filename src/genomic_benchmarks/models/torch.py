@@ -1,4 +1,5 @@
 import os
+import sys
 
 import numpy as np
 
@@ -87,7 +88,7 @@ class CNN(nn.Module):
         x = self.output_activation(x)
         return x
 
-    def train_loop(self, dataloader, optimizer):
+    def train_loop(self, dataloader, valid_dataloader, optimizer):
         for x, y in dataloader:
             optimizer.zero_grad()
             pred = self(x)
@@ -109,16 +110,47 @@ class CNN(nn.Module):
 
         train_loss /= num_batches
         correct /= size
-        print(f"Train metrics: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {train_loss:>8f} \n")
 
-    def train(self, dataloader, epochs):
+        valid_size = valid_dataloader.dataset.__len__()
+        valid_num_batches = len(valid_dataloader)
+        valid_loss, valid_correct = 0, 0
+        with torch.no_grad():
+            for X, y in valid_dataloader:
+                pred = self(X)
+                valid_loss += self.loss(pred, y).item()
+                valid_correct += (torch.round(pred) == y).sum().item()
+
+        valid_loss /= valid_num_batches
+        valid_correct /= valid_size
+
+        print(f"Valid metrics: \n Accuracy: {(100*valid_correct):>0.1f}%, Avg loss: {valid_loss:>8f} \n")
+        print(f"Train metrics: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {train_loss:>8f} \n")
+        return valid_loss
+
+    def train(self, dataloader, valid_loader, epochs):
         optimizer = torch.optim.Adam(self.parameters())
+        best_valid_so_far = sys.float_info.max
+        epochs_not_improving = 0
+        patience = 5
+        best_epoch = 0
+        print(best_valid_so_far)
         for t in range(epochs):
             print(f"Epoch {t}")
-            self.train_loop(dataloader, optimizer)
+            valid_loss = self.train_loop(dataloader, valid_loader, optimizer)
+            if valid_loss <= best_valid_so_far:
+                print("new best valid loss")
+                best_valid_so_far = valid_loss
+                epochs_not_improving = 0
+                best_epoch = t
+            else:
+                epochs_not_improving += 1
+                print("not improved for epochs:", epochs_not_improving)
+                if epochs_not_improving == patience:
+                    pass
+                    # TODO fallback to best model
 
-# TODO: update for multiclass classification datasets
-    def test(self, dataloader, positive_label = 1):
+    # TODO: update for multiclass classification datasets
+    def test(self, dataloader, positive_label=1):
         size = dataloader.dataset.__len__()
         num_batches = len(dataloader)
         test_loss, correct = 0, 0
@@ -129,8 +161,8 @@ class CNN(nn.Module):
                 pred = self(X)
                 test_loss += self.loss(pred, y).item()
                 correct += (torch.round(pred) == y).sum().item()
-                p += (y == positive_label).sum().item() 
-                if(positive_label == 1):
+                p += (y == positive_label).sum().item()
+                if positive_label == 1:
                     tp += (y * pred).sum(dim=0).item()
                     fp += ((1 - y) * pred).sum(dim=0).item()
                 else:
@@ -142,7 +174,7 @@ class CNN(nn.Module):
         precision = tp / (tp + fp)
         print("recall ", recall, "; precision ", precision)
         f1_score = 2 * precision * recall / (precision + recall)
-        
+
         print("num_batches", num_batches)
         print("correct", correct)
         print("size", size)
@@ -150,5 +182,5 @@ class CNN(nn.Module):
         test_loss /= num_batches
         accuracy = correct / size
         print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
-        
+
         return accuracy, f1_score
