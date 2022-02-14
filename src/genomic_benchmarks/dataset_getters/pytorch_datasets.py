@@ -81,3 +81,6 @@ def HumanEnhancersEnsembl(split, force_download=False, version=None):
 
 def HumanNontataPromoters(split, force_download=False, version=None):
     return GenomicClfDataset("human_nontata_promoters", split, force_download, version)
+
+def HumanOcrEnsemblRegulatory(split, force_download=False, version=None):
+    return GenomicClfDataset("human_ocr_ensembl_regulatory", split, force_download, version)
