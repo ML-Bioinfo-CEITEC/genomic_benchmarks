@@ -4,6 +4,7 @@ import numpy as np
 
 import torch
 from torch import nn
+from sklearn import metrics
 
 
 # A simple CNN model
@@ -21,11 +22,6 @@ class CNN(nn.Module):
             number_of_output_neurons = number_of_classes
             output_activation = None
             loss = torch.nn.functional.cross_entropy
-            # TODO second equivalent option is this 
-            # output_activation = lambda x: torch.nn.functional.log_softmax(x, dim=1)
-            # loss = torch.nn.functional.nll_loss
-            print(output_activation)
-            print(loss)
         else:
             raise Exception("number_of_classes < 2 is not a correct input")
 
@@ -93,28 +89,17 @@ class CNN(nn.Module):
         x = self.flatten(x)
         x = self.lin1(x)
         x = self.lin2(x)
-        # TODO
         if self.output_activation != None:
             x = self.output_activation(x)
         return x
 
     def train_loop(self, dataloader, optimizer):
-        #TODO
-        i=0
         for x, y in dataloader:
-            i=i+1
-            print("train ", i)
-            # TODO
-            print(y.shape[0])
-            if y.shape[0] < 32: 
-                print("continue")
-                continue
             optimizer.zero_grad()
             pred = self(x)
-            y = y[:,0].long()
-            print(pred.shape[0])
+            if (self.is_multiclass):
+                y = y[:,0].long()
             loss = self.loss(pred, y)
-            print(loss)
             loss.backward()
             optimizer.step()
 
@@ -126,30 +111,18 @@ class CNN(nn.Module):
 
         with torch.no_grad():
             for X, y in dataloader:
-                #TODO
-                i=i+1
-                print("count ", i)
-                if y.shape[0] < 32: 
-                    print("continue")
-                    continue
-                # y = torch.tensor(list(itertools.chain.from_iterable(y)), device='cuda:0', dtype=torch.int64)
-                y = y[:,0].long()
                 pred = self(X)
-                train_loss += self.loss(pred, y).item()
-                print(pred.shape[0])
-                print(y.shape[0])
                 if (self.is_multiclass):
+                    y = y[:,0].long()
                     correct += (torch.argmax(pred) == y).sum().item()
-                    # temp = torch.argmax(pred) == y
                 else:
                     correct += (torch.round(pred) == y).sum().item()
-                    # temp = torch.round(pred) == y
-                # temp = (temp).sum()
-                # correct += temp.sum().item()
+                train_loss += self.loss(pred, y).item()
 
         train_loss /= num_batches
         correct /= size
         print(f"Train metrics: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {train_loss:>8f} \n")
+
 
     def train(self, dataloader, epochs):
         optimizer = torch.optim.Adam(self.parameters())
@@ -157,7 +130,7 @@ class CNN(nn.Module):
             print(f"Epoch {t}")
             self.train_loop(dataloader, optimizer)
 
-# TODO: update for multiclass classification datasets
+
     def test(self, dataloader, positive_label = 1):
         size = dataloader.dataset.__len__()
         num_batches = len(dataloader)
@@ -167,8 +140,8 @@ class CNN(nn.Module):
         with torch.no_grad():
             for X, y in dataloader:
                 pred = self(X)
-                test_loss += self.loss(pred, y).item()
                 correct += (torch.round(pred) == y).sum().item()
+                test_loss += self.loss(pred, y).item()
                 p += (y == positive_label).sum().item() 
                 if(positive_label == 1):
                     tp += (y * pred).sum(dim=0).item()
@@ -180,15 +153,61 @@ class CNN(nn.Module):
         print("p ", p, "; tp ", tp, "; fp ", fp)
         recall = tp / p
         precision = tp / (tp + fp)
-        print("recall ", recall, "; precision ", precision)
+        print("recall = (tp / p) = ", recall, "; precision = (tp / (tp + fp)) = ", precision)
         f1_score = 2 * precision * recall / (precision + recall)
         
-        print("num_batches", num_batches)
-        print("correct", correct)
-        print("size", size)
+        print("f1_score = 2 * precision * recall / (precision + recall) =", f1_score)
+        print("num_batches ", num_batches)
+        print("correct ", correct)
+        print("size ", size)
 
         test_loss /= num_batches
         accuracy = correct / size
         print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
         
         return accuracy, f1_score
+
+
+    def test_multiclass(self, dataloader, class_count, positive_label = 1):
+        size = dataloader.dataset.__len__()
+        num_batches = len(dataloader)
+        test_loss, correct = 0, 0
+        tp, p, fp = [], [], []
+        for i in range(class_count):
+            p.append(0)
+            tp.append(0)
+            fp.append(0)
+        
+        # using confusion matrix sklearn
+        all_predictions = []
+        all_labels = []
+
+        with torch.no_grad():
+            for X, y in dataloader:
+                y = y[:,0].long()
+                pred = self(X)
+                arg_max_pred = torch.argmax(pred, dim=1)
+
+                all_predictions.extend(arg_max_pred.cpu().numpy())
+                all_labels.extend(y.cpu().numpy())
+
+                correct += (arg_max_pred == y).sum().item()
+                test_loss += self.loss(pred, y).item()
+
+
+        metrics.confusion_matrix(all_labels, all_predictions)
+        print(metrics.classification_report(all_labels, all_predictions, digits=3))
+        # HEADER sklearn.metrics.f1_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
+        f1_score = metrics.f1_score(all_labels, all_predictions, average=None)
+        print(f1_score)
+
+        print("num_batches ", num_batches)
+        print("correct ", correct)
+        print("size ", size)
+
+        test_loss /= num_batches
+        accuracy = correct / size
+        print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
+
+        return accuracy, f1_score
+        # return accuracy
