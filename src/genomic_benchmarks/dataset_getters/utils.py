@@ -9,7 +9,8 @@ from torchtext.vocab import build_vocab_from_iterator, vocab
 VARIABLE_LENGTH_DATASETS = [
     "demo_human_or_worm",
     "human_enhancers_ensembl",
-    "demo_mouse_enhancers",
+    "dummy_mouse_enhancers_ensembl",
+    "human_ocr_ensembl",
 ]
 
 
