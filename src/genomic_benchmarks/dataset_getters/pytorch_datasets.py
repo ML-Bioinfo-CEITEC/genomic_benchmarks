@@ -68,7 +68,7 @@ def DemoHumanOrWorm(split, force_download=False, version=None):
 
 
 def DemoMouseEnhancers(split, force_download=False, version=None):
-    return GenomicClfDataset("demo_mouse_enhancers", split, force_download, version)
+    return GenomicClfDataset("dummy_mouse_enhancers_ensembl", split, force_download, version)
 
 
 def HumanEnhancersCohn(split, force_download=False, version=None):
@@ -82,5 +82,5 @@ def HumanEnhancersEnsembl(split, force_download=False, version=None):
 def HumanNontataPromoters(split, force_download=False, version=None):
     return GenomicClfDataset("human_nontata_promoters", split, force_download, version)
 
-def HumanOcrEnsemblRegulatory(split, force_download=False, version=None):
-    return GenomicClfDataset("human_ocr_ensembl_regulatory", split, force_download, version)
+def HumanOcrEnsembl(split, force_download=False, version=None):
+    return GenomicClfDataset("human_ocr_ensembl", split, force_download, version)
