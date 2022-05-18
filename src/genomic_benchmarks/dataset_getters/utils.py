@@ -11,6 +11,8 @@ VARIABLE_LENGTH_DATASETS = [
     "human_enhancers_ensembl",
     "demo_mouse_enhancers",
     "human_ensembl_regulatory",
+    "dummy_mouse_enhancers_ensembl",
+    "human_ocr_ensembl",
 ]
 
 
