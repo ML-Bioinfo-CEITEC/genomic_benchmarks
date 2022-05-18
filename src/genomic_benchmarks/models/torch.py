@@ -1,10 +1,10 @@
 import os
 
 import numpy as np
+from sklearn import metrics
 
 import torch
 from torch import nn
-from sklearn import metrics
 
 
 # A simple CNN model
@@ -97,8 +97,8 @@ class CNN(nn.Module):
         for x, y in dataloader:
             optimizer.zero_grad()
             pred = self(x)
-            if (self.is_multiclass):
-                y = y[:,0].long()
+            if self.is_multiclass:
+                y = y[:, 0].long()
             loss = self.loss(pred, y)
             loss.backward()
             optimizer.step()
@@ -112,8 +112,8 @@ class CNN(nn.Module):
         with torch.no_grad():
             for X, y in dataloader:
                 pred = self(X)
-                if (self.is_multiclass):
-                    y = y[:,0].long()
+                if self.is_multiclass:
+                    y = y[:, 0].long()
                     correct += (torch.argmax(pred) == y).sum().item()
                 else:
                     correct += (torch.round(pred) == y).sum().item()
@@ -123,7 +123,6 @@ class CNN(nn.Module):
         correct /= size
         print(f"Train metrics: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {train_loss:>8f} \n")
 
-
     def train(self, dataloader, epochs):
         optimizer = torch.optim.Adam(self.parameters())
         for t in range(epochs):
@@ -131,7 +130,8 @@ class CNN(nn.Module):
             self.train_loop(dataloader, optimizer)
 
 
-    def test(self, dataloader, positive_label = 1):
+# obsolete, designed for binary classification only, use test_multiclass(..) function instead
+    def test(self, dataloader, positive_label=1):
         size = dataloader.dataset.__len__()
         num_batches = len(dataloader)
         test_loss, correct = 0, 0
@@ -142,8 +142,8 @@ class CNN(nn.Module):
                 pred = self(X)
                 correct += (torch.round(pred) == y).sum().item()
                 test_loss += self.loss(pred, y).item()
-                p += (y == positive_label).sum().item() 
-                if(positive_label == 1):
+                p += (y == positive_label).sum().item()
+                if positive_label == 1:
                     tp += (y * pred).sum(dim=0).item()
                     fp += ((1 - y) * pred).sum(dim=0).item()
                 else:
@@ -155,7 +155,7 @@ class CNN(nn.Module):
         precision = tp / (tp + fp)
         print("recall = (tp / p) = ", recall, "; precision = (tp / (tp + fp)) = ", precision)
         f1_score = 2 * precision * recall / (precision + recall)
-        
+
         print("f1_score = 2 * precision * recall / (precision + recall) =", f1_score)
         print("num_batches ", num_batches)
         print("correct ", correct)
@@ -164,11 +164,12 @@ class CNN(nn.Module):
         test_loss /= num_batches
         accuracy = correct / size
         print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
-        
+
         return accuracy, f1_score
 
 
-    def test_multiclass(self, dataloader, class_count, positive_label = 1):
+# returns accuracy (float), f1_score (array[float])
+    def test_multiclass(self, dataloader, class_count, positive_label=1):
         size = dataloader.dataset.__len__()
         num_batches = len(dataloader)
         test_loss, correct = 0, 0
@@ -177,14 +178,14 @@ class CNN(nn.Module):
             p.append(0)
             tp.append(0)
             fp.append(0)
-        
+
         # using confusion matrix sklearn
         all_predictions = []
         all_labels = []
 
         with torch.no_grad():
             for X, y in dataloader:
-                y = y[:,0].long()
+                y = y[:, 0].long()
                 pred = self(X)
                 arg_max_pred = torch.argmax(pred, dim=1)
 
@@ -194,12 +195,9 @@ class CNN(nn.Module):
                 correct += (arg_max_pred == y).sum().item()
                 test_loss += self.loss(pred, y).item()
 
-
         metrics.confusion_matrix(all_labels, all_predictions)
-        print(metrics.classification_report(all_labels, all_predictions, digits=3))
-        # HEADER sklearn.metrics.f1_score(y_true, y_pred, *, labels=None, pos_label=1, average='binary', sample_weight=None, zero_division='warn')
-        f1_score = metrics.f1_score(all_labels, all_predictions, average=None)
-        print(f1_score)
+        print(metrics.classification_report(all_labels, all_predictions, digits=3, zero_division=0))
+        f1_score = metrics.f1_score(all_labels, all_predictions, average=None, zero_division=0)
 
         print("num_batches ", num_batches)
         print("correct ", correct)
@@ -207,7 +205,13 @@ class CNN(nn.Module):
 
         test_loss /= num_batches
         accuracy = correct / size
-        print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
+
+        print(
+            f"Test metrics: \n Accuracy: {float(accuracy):>6f}, Avg loss: {float(test_loss):>6f} \n"
+        )
+        for class_num in range(len(f1_score)):
+            print(
+                f"F1 score class_{class_num}: {f1_score[class_num]:>6f} \n"
+            )
 
         return accuracy, f1_score
-        # return accuracy
