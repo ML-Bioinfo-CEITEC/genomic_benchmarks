@@ -14,12 +14,13 @@ character_split_fn = lambda x: tf.strings.unicode_split(x, "UTF-8")
 vectorize_layer = TextVectorization(output_mode="int", split=character_split_fn)
 
 # one-hot encoding
-onehot_layer = tf.keras.layers.Lambda(lambda x: tf.one_hot(tf.cast(x, "int64"), 4))
 
-def get_basic_cnn_model_v0(num_classes):
+def get_basic_cnn_model_v0(num_classes, vocab_size):
 
     if num_classes == 2:
         num_classes = 1
+
+    onehot_layer = tf.keras.layers.Lambda(lambda x: tf.one_hot(tf.cast(x, "int64"), vocab_size))
 
     model = tf.keras.Sequential(
         [
@@ -35,12 +36,12 @@ def get_basic_cnn_model_v0(num_classes):
             MaxPooling1D(),
             Dropout(0.3),
             GlobalAveragePooling1D(),
-            Dense(num_classes), # we don't need softmax, because entropy uses argmax and argmax of logits and probabilities are same.
+            Dense(num_classes, activation="softmax"),
         ]
     )
 
     if num_classes == 1:
-        loss = tf.keras.losses.BinaryCrossentropy(from_logits=True)
+        loss = tf.keras.losses.BinaryCrossentropy()
         acc = tf.metrics.BinaryAccuracy()
         f1 = tfa.metrics.F1Score(num_classes=1, threshold=0.5, average="micro")
     else:
