@@ -88,6 +88,8 @@ class CNN(nn.Module):
         return x
 
     def train_loop(self, dataloader, optimizer):
+
+        train_loss, correct = 0, 0
         for x, y in dataloader:
             optimizer.zero_grad()
             pred = self(x)
@@ -95,17 +97,11 @@ class CNN(nn.Module):
             loss.backward()
             optimizer.step()
 
-        #       train acc
-        # todo: optimize counting of acc
+            train_loss += self.loss(pred, y).item()
+            correct += (torch.round(pred) == y).sum().item()
+
         size = dataloader.dataset.__len__()
         num_batches = len(dataloader)
-        train_loss, correct = 0, 0
-
-        with torch.no_grad():
-            for X, y in dataloader:
-                pred = self(X)
-                train_loss += self.loss(pred, y).item()
-                correct += (torch.round(pred) == y).sum().item()
 
         train_loss /= num_batches
         correct /= size
@@ -129,7 +125,7 @@ class CNN(nn.Module):
                 pred = self(X)
                 test_loss += self.loss(pred, y).item()
                 correct += (torch.round(pred) == y).sum().item()
-                p += (y == positive_label).sum().item() 
+                p += (y == positive_label).sum().item()
                 if(positive_label == 1):
                     tp += (y * pred).sum(dim=0).item()
                     fp += ((1 - y) * pred).sum(dim=0).item()
@@ -142,7 +138,7 @@ class CNN(nn.Module):
         precision = tp / (tp + fp)
         print("recall ", recall, "; precision ", precision)
         f1_score = 2 * precision * recall / (precision + recall)
-        
+
         print("num_batches", num_batches)
         print("correct", correct)
         print("size", size)
@@ -150,5 +146,5 @@ class CNN(nn.Module):
         test_loss /= num_batches
         accuracy = correct / size
         print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
-        
+
         return accuracy, f1_score
