@@ -38,7 +38,7 @@ Get the list of all datasets with the `list_datasets` function
 >>> from genomic_benchmarks.data_check import list_datasets
 >>> 
 >>> list_datasets()
-['demo_coding_vs_intergenomic_seqs', 'dummy_mouse_enhancers_ensembl', 'human_nontata_promoters', 'human_enhancers_cohn', 'demo_human_or_worm', 'human_enhancers_ensembl']
+['demo_coding_vs_intergenomic_seqs', 'demo_human_or_worm', 'dummy_mouse_enhancers_ensembl', 'human_enhancers_cohn', 'human_enhancers_ensembl', 'human_ensembl_regulatory',  'human_nontata_promoters', 'human_ocr_ensembl']
 ```
 
 You can get basic information about the benchmark with `info` function:
