@@ -7,10 +7,10 @@ from torch.nn import ConstantPad1d
 from torchtext.vocab import build_vocab_from_iterator, vocab
 
 VARIABLE_LENGTH_DATASETS = [
-    "demo_human_or_worm",
     "human_enhancers_ensembl",
     "dummy_mouse_enhancers_ensembl",
     "human_ocr_ensembl",
+    "human_ensembl_regulatory"
 ]
 
 
