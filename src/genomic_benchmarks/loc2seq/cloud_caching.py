@@ -11,7 +11,7 @@ CLOUD_CACHE = {
     ("dummy_mouse_enhancers_ensembl", 0): "1dz7dwvyM1TVUsCyuxxxn1ZMMFV381sl2",
     ("human_enhancers_cohn", 0): "176563cDPQ5Y094WyoSBF02QjoVQhWuCh",
     ("human_enhancers_ensembl", 0): "1gZBEV_RGxJE8EON5OObdrp5Tp8JL0Fxb",
-    ("human_ensembl_regulatory", 0): "1y_LInRF2aRXysigpwv_oU3Q67VVxfk18"
+    ("human_ocr_ensembl", 0): "1y_LInRF2aRXysigpwv_oU3Q67VVxfk18"
 }
 
 
