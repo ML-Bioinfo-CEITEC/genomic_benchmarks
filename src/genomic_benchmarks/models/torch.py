@@ -4,7 +4,7 @@ import numpy as np
 from sklearn import metrics
 
 import torch
-from torch import nn
+from torch import nn, tensor
 
 
 # A simple CNN model
@@ -114,7 +114,16 @@ class CNN(nn.Module):
                 pred = self(X)
                 if self.is_multiclass:
                     y = y[:, 0].long()
-                    correct += (torch.argmax(pred) == y).sum().item()
+                    pred_maximas = tensor([torch.argmax(x) for x in pred])
+                    pred_compared = torch.argmax(pred_maximas) == y
+                    correct += (pred_compared).sum().item()
+                    # for i in range(len(pred_maximas)):
+                    #     print("pred ", pred[i])
+                    #     print("pred_maximas ", pred_maximas[i].item())
+                    #     print("pred_maximas_tensor ", pred_maximas_tensor[i].item())
+                    #     print("y ", y[i].item())
+                    #     print("pred_bool ", pred_bool[i].item())
+
                 else:
                     correct += (torch.round(pred) == y).sum().item()
                 train_loss += self.loss(pred, y).item()
@@ -169,15 +178,10 @@ class CNN(nn.Module):
 
 
 # returns accuracy (float), f1_score (array[float])
-    def test_multiclass(self, dataloader, class_count, positive_label=1):
+    def test_multiclass(self, dataloader):
         size = dataloader.dataset.__len__()
         num_batches = len(dataloader)
         test_loss, correct = 0, 0
-        tp, p, fp = [], [], []
-        for i in range(class_count):
-            p.append(0)
-            tp.append(0)
-            fp.append(0)
 
         # using confusion matrix sklearn
         all_predictions = []
@@ -196,22 +200,22 @@ class CNN(nn.Module):
                 test_loss += self.loss(pred, y).item()
 
         metrics.confusion_matrix(all_labels, all_predictions)
-        print(metrics.classification_report(all_labels, all_predictions, digits=3, zero_division=0))
-        f1_score = metrics.f1_score(all_labels, all_predictions, average=None, zero_division=0)
+        # print(metrics.classification_report(all_labels, all_predictions, digits=3, zero_division=0))
+        f1_score = metrics.f1_score(all_labels, all_predictions, average='micro', zero_division=0)
 
-        print("num_batches ", num_batches)
-        print("correct ", correct)
-        print("size ", size)
+        # print("num_batches ", num_batches)
+        # print("correct ", correct)
+        # print("size ", size)
 
         test_loss /= num_batches
         accuracy = correct / size
 
-        print(
-            f"Test metrics: \n Accuracy: {float(accuracy):>6f}, Avg loss: {float(test_loss):>6f} \n"
-        )
-        for class_num in range(len(f1_score)):
-            print(
-                f"F1 score class_{class_num}: {f1_score[class_num]:>6f} \n"
-            )
+        # print(
+        #     f"Test metrics: \n Accuracy: {float(accuracy):>6f}, Avg loss: {float(test_loss):>6f} \n"
+        # )
+        # for class_num in range(len(f1_score)):
+        #     print(
+        #         f"F1 score class_{class_num}: {f1_score[class_num]:>6f} \n"
+        #     )
 
         return accuracy, f1_score
