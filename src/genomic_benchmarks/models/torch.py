@@ -4,21 +4,26 @@ import numpy as np
 
 import torch
 from torch import nn
+from sklearn import metrics
 
 
 # A simple CNN model
 class CNN(nn.Module):
-    def __init__(self, number_of_classes, vocab_size, embedding_dim, input_len):
+    def __init__(self, number_of_classes, vocab_size, embedding_dim, input_len, device):
         super(CNN, self).__init__()
+
+        self.device = device
+
         if number_of_classes == 2:
+            self.is_multiclass = False
             number_of_output_neurons = 1
             loss = torch.nn.functional.binary_cross_entropy_with_logits
             output_activation = nn.Sigmoid()
         else:
-            raise Exception("Not implemented for number_of_classes!=2")
-            # number_of_output_neurons = number_of_classes
-            # loss = torch.nn.CrossEntropyLoss()
-            # output_activation = nn.Softmax(dim=)
+            self.is_multiclass = True
+            number_of_output_neurons = number_of_classes
+            loss = torch.nn.CrossEntropyLoss()
+            output_activation = lambda x: x
 
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
         self.cnn_model = nn.Sequential(
@@ -62,61 +67,73 @@ class CNN(nn.Module):
     def train_loop(self, dataloader, optimizer):
 
         train_loss, correct = 0, 0
+        self.train()
         for x, y in dataloader:
-            optimizer.zero_grad()
+            x, y = x.to(self.device), y.to(self.device)
+            if self.is_multiclass:
+                y = y[:, 0].long()
+
+            # Compute prediction error
             pred = self(x)
             loss = self.loss(pred, y)
+
+            # Backpropagation
+            optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
             train_loss += self.loss(pred, y).item()
-            correct += (torch.round(pred) == y).sum().item()
 
-        size = dataloader.dataset.__len__()
+            if self.is_multiclass:
+                correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+            else:
+                correct += (torch.round(pred) == y).sum().item()
+
+        size = len(dataloader.dataset)
         num_batches = len(dataloader)
 
         train_loss /= num_batches
         correct /= size
         print(f"Train metrics: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {train_loss:>8f} \n")
 
-    def train(self, dataloader, epochs):
+    def fit(self, dataloader, epochs):
         optimizer = torch.optim.Adam(self.parameters())
         for t in range(epochs):
             print(f"Epoch {t}")
             self.train_loop(dataloader, optimizer)
 
-# TODO: update for multiclass classification datasets
-    def test(self, dataloader, positive_label = 1):
-        size = dataloader.dataset.__len__()
+    def test(self, dataloader):
+
         num_batches = len(dataloader)
-        test_loss, correct = 0, 0
-        tp, p, fp = 0, 0, 0
+        self.eval()
+
+        all_predictions = []
+        all_labels = []
+        test_loss = 0
 
         with torch.no_grad():
             for X, y in dataloader:
-                pred = self(X)
-                test_loss += self.loss(pred, y).item()
-                correct += (torch.round(pred) == y).sum().item()
-                p += (y == positive_label).sum().item()
-                if(positive_label == 1):
-                    tp += (y * pred).sum(dim=0).item()
-                    fp += ((1 - y) * pred).sum(dim=0).item()
+                if self.is_multiclass:
+                    y = y[:, 0].long()
+
+                output = self(X)
+                test_loss += self.loss(output, y).item()
+
+                if self.is_multiclass:
+                    pred = output.argmax(1)
                 else:
-                    tp += ((1 - y) * (1 - pred)).sum(dim=0).item()
-                    fp += (y * (1 - pred)).sum(dim=0).item()
+                    pred = torch.round(output)
 
-        print("p ", p, "; tp ", tp, "; fp ", fp)
-        recall = tp / p
-        precision = tp / (tp + fp)
-        print("recall ", recall, "; precision ", precision)
-        f1_score = 2 * precision * recall / (precision + recall)
+                all_labels.extend(y.cpu().numpy())
+                all_predictions.extend(pred.cpu().numpy())
 
-        print("num_batches", num_batches)
-        print("correct", correct)
-        print("size", size)
-
+        average = 'micro' if self.is_multiclass else 'binary'
+        acc = metrics.accuracy_score(all_labels, all_predictions)
+        f1 = metrics.f1_score(all_labels, all_predictions, average=average, zero_division=0)
         test_loss /= num_batches
-        accuracy = correct / size
-        print(f"Test metrics: \n Accuracy: {accuracy:>6f}, F1 score: {f1_score:>6f}, Avg loss: {test_loss:>6f} \n")
 
-        return accuracy, f1_score
+        print(
+             f"Test metrics: \n Accuracy: {float(acc):>6f}, F1 score: {float(f1):>6f}, Avg loss: {float(test_loss):>6f} \n"
+        )
+
+        return acc, f1

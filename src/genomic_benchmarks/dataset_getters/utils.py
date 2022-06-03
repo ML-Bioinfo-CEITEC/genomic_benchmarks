@@ -79,7 +79,7 @@ def build_vocab(dataset, tokenizer, use_padding):
 #         special_first = True)
 
 
-def check_seq_lengths(dataset, config):
+def check_seq_lengths(dataset, use_padding):
     # Compute length of the longest sequence
     max_seq_len = max([len(dataset[i][0]) for i in range(len(dataset))])
     print("max_seq_len ", max_seq_len)
@@ -88,7 +88,7 @@ def check_seq_lengths(dataset, config):
         print("not all sequences are of the same length")
 
     # Count in tokens added in tokenizer '<bos>' and '<eos>' and the padding token <pad>
-    if config["use_padding"]:
+    if use_padding:
         len_with_tokens = max_seq_len + 3
     else:
         len_with_tokens = max_seq_len + 2
