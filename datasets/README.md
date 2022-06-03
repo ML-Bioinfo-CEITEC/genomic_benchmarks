@@ -37,6 +37,8 @@ The format of gzipped CSV files closely resemble BED format, the column names mu
 
 Create a new branch. Add the new subfolders to `datasets` and `docs`. The subfolder of `docs` should contain a description of the dataset in `README.md`. If the dataset comes with the paper, link the paper. If the dataset is not taken from the paper, make sure you have described and understand the biological process behind it.
 
+If you have access to `cloud_cache` folder on GDrive, upload your file there and update `CLOUD_CACHE` in [cloud_caching.py](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/blob/main/src/genomic_benchmarks/loc2seq/cloud_caching.py).
+
 ### To review a new dataset
 
 Make sure you can run and reproduce the code. Check you can download the actual sequences and/or create a data loader. Do you understand what is behind these data? (either from the paper or the description) Ask for clarification if needed.
