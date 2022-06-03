@@ -4,6 +4,8 @@ from pathlib import Path
 import shutil
 import gdown
 
+# the files can be found in https://drive.google.com/drive/folders/1hV1swtSjun0TVYtuWBERkZVajvMgK-II (ask Petr for permission to write)
+# the value is file_id that can be found by right-clicking on the file and selecting "Get link"
 CLOUD_CACHE = {
     ("human_nontata_promoters", 0): "1VdUg0Zu8yfLS6QesBXwGz1PIQrTW3Ze4",
     ("demo_coding_vs_intergenomic_seqs", 0): "1cpXg0ULuTGF7h1_HTYvc6p8M-ee43t-v",
