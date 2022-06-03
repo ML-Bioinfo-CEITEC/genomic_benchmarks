@@ -21,23 +21,26 @@ class CNN(nn.Module):
             # output_activation = nn.Softmax(dim=)
 
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
-        self.conv1 = nn.Conv1d(in_channels=embedding_dim, out_channels=16, kernel_size=8, bias=True)
-        self.norm1 = nn.BatchNorm1d(16)
-        self.relu = nn.ReLU()
-        self.pool1 = nn.MaxPool1d(2)
+        self.cnn_model = nn.Sequential(
+            nn.Conv1d(in_channels=embedding_dim, out_channels=16, kernel_size=8, bias=True),
+            nn.BatchNorm1d(16),
+            nn.ReLU(),
+            nn.MaxPool1d(2),
 
-        self.conv2 = nn.Conv1d(in_channels=16, out_channels=8, kernel_size=8, bias=True)
-        self.norm2 = nn.BatchNorm1d(8)
-        self.pool2 = nn.MaxPool1d(2)
+            nn.Conv1d(in_channels=16, out_channels=8, kernel_size=8, bias=True),
+            nn.BatchNorm1d(8),
+            nn.MaxPool1d(2),
 
-        self.conv3 = nn.Conv1d(in_channels=8, out_channels=4, kernel_size=8, bias=True)
-        self.norm3 = nn.BatchNorm1d(4)
-        self.pool3 = nn.MaxPool1d(2)
+            nn.Conv1d(in_channels=8, out_channels=4, kernel_size=8, bias=True),
+            nn.BatchNorm1d(4),
+            nn.MaxPool1d(2),
 
-        #         compute output shape of conv layers
-        self.flatten = nn.Flatten()
-        self.lin1 = nn.Linear(self.count_flatten_size(input_len), 512)
-        self.lin2 = nn.Linear(512, number_of_output_neurons)
+            nn.Flatten()
+        )
+        self.dense_model = nn.Sequential(
+            nn.Linear(self.count_flatten_size(input_len), 512),
+            nn.Linear(512, number_of_output_neurons)
+        )
         self.output_activation = output_activation
         self.loss = loss
 
@@ -45,45 +48,14 @@ class CNN(nn.Module):
         zeros = torch.zeros([1, input_len], dtype=torch.long)
         x = self.embeddings(zeros)
         x = x.transpose(1, 2)
-        x = self.conv1(x)
-        x = self.norm1(x)
-        x = self.relu(x)
-        x = self.pool1(x)
-
-        x = self.conv2(x)
-        x = self.norm2(x)
-        x = self.relu(x)
-        x = self.pool2(x)
-
-        x = self.conv3(x)
-        x = self.norm3(x)
-        x = self.relu(x)
-        x = self.pool3(x)
-
-        x = self.flatten(x)
+        x = self.cnn_model(x)
         return x.size()[1]
 
     def forward(self, x):
         x = self.embeddings(x)
         x = x.transpose(1, 2)
-        x = self.conv1(x)
-        x = self.norm1(x)
-        x = self.relu(x)
-        x = self.pool1(x)
-
-        x = self.conv2(x)
-        x = self.norm2(x)
-        x = self.relu(x)
-        x = self.pool2(x)
-
-        x = self.conv3(x)
-        x = self.norm3(x)
-        x = self.relu(x)
-        x = self.pool3(x)
-
-        x = self.flatten(x)
-        x = self.lin1(x)
-        x = self.lin2(x)
+        x = self.cnn_model(x)
+        x = self.dense_model(x)
         x = self.output_activation(x)
         return x
 
