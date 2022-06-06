@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="genomic_benchmarks",
-    version="0.0.6",
+    version="0.0.7",
     description="Genomic Benchmarks",
     long_description=long_description,
     long_description_content_type="text/markdown",
