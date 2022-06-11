@@ -128,8 +128,27 @@ If you have an interesting genomic dataset, send us [an issue](https://github.co
 
 If you are a hero, read [the specification of our dataset format](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/tree/main/datasets) and send us a pull request with new `datasets/[YOUR_DATASET_NAME]` and `docs/[YOUR_DATASET_NAME]` folders.
 
-
-
 ### How to improve code in this package
 
 We welcome new code contributors. If you see a bug, send us [an issue](https://github.com/ML-Bioinfo-CEITEC/genomic_benchmarks/issues) with a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example). Or even better, fix the bug and send us a pull request. 
+
+## Citing Genomic Benchmarks
+
+If you use Genomic Benchmarks in your research, please cite it as follows.
+
+### Text
+
+GRESOVA, Katarina, et al. Genomic Benchmarks: A Collection of Datasets for Genomic Sequence Classification. bioRxiv, 2022.
+
+### BibTeX
+
+```bib
+@article{gresova2022genomic,
+  title={Genomic Benchmarks: A Collection of Datasets for Genomic Sequence Classification},
+  author={Gresova, Katarina and Martinek, Vlastimil and Cechak, David and Simecek, Petr and Alexiou, Panagiotis},
+  journal={bioRxiv},
+  year={2022},
+  publisher={Cold Spring Harbor Laboratory}
+  url={https://www.biorxiv.org/content/10.1101/2022.06.08.495248}
+}
+```
