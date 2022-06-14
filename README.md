@@ -148,7 +148,7 @@ GRESOVA, Katarina, et al. Genomic Benchmarks: A Collection of Datasets for Genom
   author={Gresova, Katarina and Martinek, Vlastimil and Cechak, David and Simecek, Petr and Alexiou, Panagiotis},
   journal={bioRxiv},
   year={2022},
-  publisher={Cold Spring Harbor Laboratory}
+  publisher={Cold Spring Harbor Laboratory},
   url={https://www.biorxiv.org/content/10.1101/2022.06.08.495248}
 }
 ```
