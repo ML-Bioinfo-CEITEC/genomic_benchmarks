@@ -1,4 +1,11 @@
-from genomic_benchmarks.data_check import info, is_downloaded, list_datasets
+import pandas as pd
+from genomic_benchmarks.data_check import info
+
 
 def test_info():
-    assert info("dummy_mouse_enhancers_ensembl", 0) is not None
+    mouse_info = info("dummy_mouse_enhancers_ensembl", 0)
+
+    assert mouse_info is not None
+    assert isinstance(mouse_info, pd.DataFrame)
+    assert mouse_info.shape == (2, 2)
+    assert mouse_info.train.sum() == 968
