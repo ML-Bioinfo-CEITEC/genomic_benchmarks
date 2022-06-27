@@ -18,3 +18,7 @@ To get a test coverage
 ```bash
     pytest --cov=src/genomic_benchmarks/ tests/ 
 ```
+
+## How to write tests
+
+The structure of the test folder mirrors the package structure (note the prefix `test_`). Try to cover both the typical and the corner cases. Avoid slow tests (or at least tag them). Use `pytest-cov` to see which parts of the code are not yet tested. Tests are essential - be a test hero!
