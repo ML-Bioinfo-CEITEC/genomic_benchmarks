@@ -100,11 +100,6 @@ Getting Pytorch Dataset and displaying samples is also easy:
 See [How_To_Train_CNN_Classifier_With_Pytorch.ipynb](notebooks/How_To_Train_CNN_Classifier_With_Pytorch.ipynb) for more detailed description how to train CNN classifier with Pytorch.
 
 
-## Introduction
-
-[WHY ARE BENCHMARKS IMPORTANT?]
-
-[WHAT BENCHMARKS ARE GENOMIC BENCHMARKS?]
 ## Structure of package
 
   * [datasets](datasets/): Each folder is one benchmark dataset (or a set of bechmarks in subfolders), see [README.md](datasets/README.md) for the format specification
