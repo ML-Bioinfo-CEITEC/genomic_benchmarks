@@ -23,7 +23,7 @@ class GenomicClfDataset(Dataset):
                 Version of the dataset
         """
         base_path = CACHE_PATH / dset_name
-        if not is_downloaded(dset_name):
+        if not is_downloaded(dset_name) or force_download:
             download_dataset(dset_name, version=version, force_download=force_download)
 
         if split == "train" or split == "test":
