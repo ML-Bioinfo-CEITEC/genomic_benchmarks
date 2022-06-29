@@ -10,7 +10,7 @@ CLOUD_CACHE = {
     ("human_nontata_promoters", 0): "1VdUg0Zu8yfLS6QesBXwGz1PIQrTW3Ze4",
     ("demo_coding_vs_intergenomic_seqs", 0): "1cpXg0ULuTGF7h1_HTYvc6p8M-ee43t-v",
     ("demo_human_or_worm", 0): "1JW0-eTB-rJXvFcglqBo3pFZi1kyIWC3X",
-    ("drosophila_ehnancers_stark", 0): "1D8u3m09CNIv8e4-5rOu5wKuwcLl1eejs",
+    ("drosophila_enhancers_stark", 0): "1D8u3m09CNIv8e4-5rOu5wKuwcLl1eejs",
     ("dummy_mouse_enhancers_ensembl", 0): "1dz7dwvyM1TVUsCyuxxxn1ZMMFV381sl2",
     ("human_enhancers_cohn", 0): "176563cDPQ5Y094WyoSBF02QjoVQhWuCh",
     ("human_enhancers_ensembl", 0): "1gZBEV_RGxJE8EON5OObdrp5Tp8JL0Fxb",
