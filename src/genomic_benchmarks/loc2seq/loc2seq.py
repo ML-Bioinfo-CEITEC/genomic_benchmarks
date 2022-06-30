@@ -24,7 +24,7 @@ def download_dataset(
     dest_path=CACHE_PATH,
     cache_path=REF_CACHE_PATH,
     force_download=False,
-    use_cloud_cache=True,
+    use_cloud_cache=False,
     local_repo=False,
 ):
     """
