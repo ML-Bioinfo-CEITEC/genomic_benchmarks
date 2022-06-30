@@ -1,0 +1,9 @@
+classes:
+  negative:
+    type: fa.gz
+    url: http://ftp.ensembl.org/pub/release-100/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.28.dna.toplevel.fa.gz
+  positive:
+    extra_processing: ENSEMBL_DROSOPHILA_GENOME
+    type: fa.gz
+    url: http://ftp.ensembl.org/pub/release-100/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.28.dna.toplevel.fa.gz
+version: 0

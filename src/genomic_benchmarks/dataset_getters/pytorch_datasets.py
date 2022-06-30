@@ -67,6 +67,8 @@ def DemoCodingVsIntergenomicSeqs(split, force_download=False, version=None, use_
 def DemoHumanOrWorm(split, force_download=False, version=None, use_cloud_cache=False):
     return GenomicClfDataset("demo_human_or_worm", split, force_download, version, use_cloud_cache)
 
+def DrosophilaEnhancersStark(split, force_download=False, version=None):
+    return GenomicClfDataset("drosophila_enhancers_stark", split, force_download, version)
 
 def DemoMouseEnhancers(split, force_download=False, version=None, use_cloud_cache=False):
     return GenomicClfDataset("dummy_mouse_enhancers_ensembl", split, force_download, version, use_cloud_cache)

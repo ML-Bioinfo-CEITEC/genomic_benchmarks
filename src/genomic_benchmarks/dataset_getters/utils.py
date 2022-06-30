@@ -10,7 +10,8 @@ VARIABLE_LENGTH_DATASETS = [
     "human_enhancers_ensembl",
     "dummy_mouse_enhancers_ensembl",
     "human_ocr_ensembl",
-    "human_ensembl_regulatory"
+    "human_ensembl_regulatory",
+    "drosophila_enhancers_stark"
 ]
 
 
