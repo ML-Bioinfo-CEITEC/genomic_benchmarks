@@ -6,8 +6,27 @@ import pytest
 from genomic_benchmarks.utils.datasets import (
     _get_dataset_name,
     _get_reference_name,
+    _guess_location,
     _rev,
 )
+
+
+def test__guess_location_returns_path_for_existing_path():
+    expected = Path.home()
+
+    actual = _guess_location(dataset_path = expected)
+
+    assert expected == actual
+
+
+def test__guess_location_fails_for_None_path():
+    with pytest.raises(TypeError):
+        _guess_location(dataset_path = None)
+
+
+def test__guess_location_fails_for_not_existing_dataset():
+    with pytest.raises(FileNotFoundError):
+        _guess_location(dataset_path = 'not_existing')
 
 
 def test__get_dataset_name_returns_correct_string_from_path():
