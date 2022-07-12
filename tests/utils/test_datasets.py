@@ -46,9 +46,31 @@ def test__get_dataset_name_returns_empty_for_empty_string():
     assert expected == actual
 
 
-# def test__get_reference_name():
-#     expected = 'grouping-tests-in-pytest-classes-vs-plain-functions'
-#     actual = _get_reference_name('https://stackoverflow.com/questions/50016862/grouping-tests-in-pytest-classes-vs-plain-functions')
+def test__get_reference_name_correctly_returns_name():
+    expected = '50016862'
 
-#     print('\n\n')
-#     print(actual)
+    actual = _get_reference_name('https://stackoverflow.com/questions/' + expected)
+
+    assert expected == actual
+
+
+def test__get_reference_name_returns_empty_string_for_empty_reference_name():
+    expected = ''
+
+    actual = _get_reference_name('https://stackoverflow.com/questions/50016862/')
+
+    assert expected == actual
+
+
+def test__get_reference_name_returns_empty_string_for_empty_input():
+    expected = ''
+
+    actual = _get_reference_name('')
+
+    assert expected == actual
+
+
+def test__get_reference_name_fails_for_None_input():
+    with pytest.raises(AttributeError):
+        _get_reference_name(None)
+
