@@ -2,13 +2,21 @@ from pathlib import Path
 from threading import activeCount
 
 import pytest
-from genomic_benchmarks.utils.datasets import _get_dataset_name
+from genomic_benchmarks.utils.datasets import _get_dataset_name, _get_reference_name
 
 
 def test__get_dataset_name_returns_correct_string_from_path():
     expected = 'name'
 
     actual = _get_dataset_name('C:/an_/exaple-of__]a][[--path/  /' + expected)
+
+    assert expected == actual
+
+
+def test__get_dataset_name_returns_empty_for_directory_path():
+    expected = 'name'
+
+    actual = _get_dataset_name('/a/directory/path/' + expected + '/')
 
     assert expected == actual
 
@@ -38,11 +46,9 @@ def test__get_dataset_name_returns_empty_for_empty_string():
     assert expected == actual
 
 
-# ToDo is correct behaviour? _get_dataset_name('/a/directory/path/') returns "path"
-def test__get_dataset_name_returns_empty_for_directory_path():
-    expected = ''
+# def test__get_reference_name():
+#     expected = 'grouping-tests-in-pytest-classes-vs-plain-functions'
+#     actual = _get_reference_name('https://stackoverflow.com/questions/50016862/grouping-tests-in-pytest-classes-vs-plain-functions')
 
-    actual = _get_dataset_name('/a/directory/path/' + expected)
-
-    # assert expected == actual
-
+#     print('\n\n')
+#     print(actual)
