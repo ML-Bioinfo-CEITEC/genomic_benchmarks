@@ -1,8 +1,13 @@
 from pathlib import Path
 from threading import activeCount
+from unittest import expectedFailure
 
 import pytest
-from genomic_benchmarks.utils.datasets import _get_dataset_name, _get_reference_name
+from genomic_benchmarks.utils.datasets import (
+    _get_dataset_name,
+    _get_reference_name,
+    _rev,
+)
 
 
 def test__get_dataset_name_returns_correct_string_from_path():
@@ -74,3 +79,39 @@ def test__get_reference_name_fails_for_None_input():
     with pytest.raises(AttributeError):
         _get_reference_name(None)
 
+
+def test__rev_returns_reverse_complement():
+    expected = 'YNCTATCGGGGG'
+
+    actual = _rev(seq = 'CCCCCGATAGNR', strand = '-')
+
+    assert expected == actual
+
+
+def test__rev_returns_identity_for_empty_strand():
+    expected = 'CCCCCGATAGNR'
+
+    actual = _rev(seq = expected, strand = None)
+
+    assert expected == actual
+
+
+def test__rev_fails_for_None_seq_with_strand():
+    with pytest.raises(TypeError):
+        _rev(seq = None, strand = '-')
+
+
+def test__rev_returns_identity_for_empty_string_with_strand():
+    expected = ''
+
+    actual = _rev(seq = expected, strand = '-')
+
+    assert expected == actual
+
+
+def test__rev_returns_identity_for_empty_string_without_strand():
+    expected = ''
+
+    actual = _rev(seq = expected, strand = None)
+
+    assert expected == actual
