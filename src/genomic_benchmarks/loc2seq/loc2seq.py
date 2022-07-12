@@ -24,7 +24,7 @@ def download_dataset(
     dest_path=CACHE_PATH,
     cache_path=REF_CACHE_PATH,
     force_download=False,
-    use_cloud_cache=False,
+    use_cloud_cache=True,
     local_repo=False,
 ):
     """
@@ -82,7 +82,11 @@ EXTRA_PREPROCESSING = {
     "default": [None, None, lambda x: x],
     "ENSEMBL_HUMAN_GENOME": [24, "MT", lambda x: "chr" + x],  # use only chromosomes, not contigs, and add chr prefix
     "ENSEMBL_MOUSE_GENOME": [21, "MT", lambda x: "chr" + x],  # use only chromosomes, not contigs, and add chr prefix
-    "ENSEMBL_DROSOPHILA_GENOME": [1870, "mitochondrion_genome", lambda x: "chrM" if x == 'mitochondrion_genome' else "chr" + x],  # use only chromosomes, not contigs, and add chr prefix
+    "ENSEMBL_DROSOPHILA_GENOME": [
+        1870,
+        "mitochondrion_genome",
+        lambda x: "chrM" if x == "mitochondrion_genome" else "chr" + x,
+    ],  # use only chromosomes, not contigs, and add chr prefix
     "ENSEMBL_HUMAN_TRANSCRIPTOME": [
         190_000,
         None,
