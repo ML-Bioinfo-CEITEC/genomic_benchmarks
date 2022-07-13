@@ -4,11 +4,14 @@ from unittest import mock
 
 import pytest
 import requests
+from genomic_benchmarks.loc2seq.loc2seq import EXTRA_PREPROCESSING
 from genomic_benchmarks.utils.datasets import (
     _download_url,
+    _fastagz2dict,
     _get_dataset_name,
     _get_reference_name,
     _guess_location,
+    _remove_and_create,
     _rev,
 )
 from genomic_benchmarks.utils.paths import DATASET_DIR_PATH, DATASET_URL_PATH
@@ -140,6 +143,53 @@ def test__get_reference_name_fails_for_None_input():
         _get_reference_name(None)
 
 
+def test__download_url_calls_urlretrieve_correctly(monkeypatch):
+    # urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
+    url = 'http://www.example.com/'
+    dest = 'dummy_dest'
+
+    path_exists_mock = mock.Mock(return_value=False)
+    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+
+    urlretrieve_mock = mock.MagicMock()
+    monkeypatch.setattr(urllib.request, 'urlretrieve', urlretrieve_mock)
+
+    _download_url(url, dest)
+
+    urlretrieve_mock.assert_called_with(url, filename = dest, reporthook = mock.ANY)
+
+
+def test__download_url_calls_unlink_for_existing_path(monkeypatch):
+    url = 'http://www.example.com/'
+    dest = 'dummy_dest'
+
+    path_exists_mock = mock.Mock(return_value=True)
+    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+
+    unlink_mock = mock.MagicMock()
+    monkeypatch.setattr(Path, 'unlink', unlink_mock)
+
+    _download_url(url, dest)
+
+    unlink_mock.assert_called()
+
+
+def test__fastagz2dict():
+    expected = {'test': 'ACCCCAGGGGAACTTCCAAGCACCTGAGCTTTTGTCCTTTCTAGTTCTGTGCATAGGTGCTGCCTTCCTGGGGGTAGGCACTTCTGTGAGTCCCTGCTGCAGGGGCAGAAGTGCATGTCTGCTGCACCAGAAGCCCCCGCTATTGATGCTCTCGGCTCCATTGGGAGAGCAGCTGCCAACTCAGCTTCTTCTACCTCCTACTTCATGGCAGACCAGGCCTTCACAGCTAATGGGGAGAGGAACTCATGTTACCTCTGCAGGCCTGGGGTCCTGAGGGGGTCTTTTGGCTTCAGCCTGTTCCCCCAGAGGCTTGATCATCCCACATTGTCCCTTCAGCTCAGCTGCTCTTCTCCCCCACCCACCCTGGGATGTGGGTGCTCTGGGCTGAACCAAGGCTATGGAGCCATCCTAGGGCAGGTAGCACTGAGGCTCCTGTGGAAACAGGAGCCACCTGCTCAGGAGACCCCTTTCCTGAGGAAGTCCTTACCTCTCCCCTTGAGATGTAAAAATGGTCCAGCAGAGACAAGCTCCCGTGGAAAACAGACAGGAGCATGGGGGCAGCTGTCATGGCTGTGGCGGGCACTTTTCCTCAGAGTTTCT'}
+    fasta_path = Path(__file__).parents[0] / '../test_data/test_reference.fa.gz'
+
+    actual = _fastagz2dict(fasta_path)
+
+    assert expected == actual
+
+
+def test__fastagz2dict_fails_for_not_existing_path():
+    fasta_path = Path(__file__).parents[0] / '../test_data/not_existing.fa.gz'
+
+    with pytest.raises(FileNotFoundError):
+        _fastagz2dict(fasta_path)
+
+
 def test__rev_returns_reverse_complement():
     expected = 'YNCTATCGGGGG'
 
@@ -177,33 +227,22 @@ def test__rev_returns_identity_for_empty_string_without_strand():
     assert expected == actual
 
 
-def test__download_url_calls_urlretrieve_correctly(monkeypatch):
-    # urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
-    url = 'http://www.example.com/'
-    dest = 'dummy_dest'
+def test__remove_and_create_for_existing_directory(tmp_path):
+    dir_path = tmp_path / "sub" / "subsub"
+    dir_path.mkdir(parents=True, exist_ok=True)
+    file_path = dir_path / "hello.txt"
+    file_path.write_text('dummy')
 
-    path_exists_mock = mock.Mock(return_value=False)
-    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+    _remove_and_create(dir_path)
 
-    urlretrieve_mock = mock.MagicMock()
-    monkeypatch.setattr(urllib.request, 'urlretrieve', urlretrieve_mock)
-
-    _download_url(url, dest)
-
-    urlretrieve_mock.assert_called_with(url, filename = dest, reporthook = mock.ANY)
+    assert Path(dir_path).exists()
+    assert not Path(file_path).exists()
 
 
-def test__download_url_calls_unlink_for_existing_path(monkeypatch):
-    # urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
-    url = 'http://www.example.com/'
-    dest = 'dummy_dest'
+def test__remove_and_create_creates_directory_for_not_existing_directory(tmp_path):
+    dir_path = tmp_path / "sub" / "subsub"
 
-    path_exists_mock = mock.Mock(return_value=True)
-    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+    _remove_and_create(dir_path)
 
-    unlink_mock = mock.MagicMock()
-    monkeypatch.setattr(Path, 'unlink', unlink_mock)
+    assert Path(dir_path).exists()
 
-    _download_url(url, dest)
-
-    unlink_mock.assert_called()
