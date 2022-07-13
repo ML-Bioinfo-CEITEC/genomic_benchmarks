@@ -1,20 +1,59 @@
 from pathlib import Path
-from threading import activeCount
-from unittest import expectedFailure
+from unittest import mock
 
 import pytest
+import requests
 from genomic_benchmarks.utils.datasets import (
     _get_dataset_name,
     _get_reference_name,
     _guess_location,
     _rev,
 )
+from genomic_benchmarks.utils.paths import DATASET_DIR_PATH, DATASET_URL_PATH
 
 
 def test__guess_location_returns_path_for_existing_path():
     expected = Path.home()
 
     actual = _guess_location(dataset_path = expected)
+
+    assert expected == actual
+
+
+def test__guess_location_returns_path_for_local_repo_and_dataset_in_datasets_folder(monkeypatch):
+    dataset_path = 'dummy'
+    expected =  DATASET_DIR_PATH / dataset_path
+    def path_exists_mock(path):
+        if str(path) == str(expected):
+            return True
+        else:
+            return False
+    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+
+    actual = _guess_location(dataset_path = dataset_path, local_repo=True)
+
+    assert expected == actual
+
+
+def test__guess_location_returns_path_for_not_local_repo_and_existing_url(monkeypatch):
+    dataset_path = 'dummy'
+    expected = DATASET_URL_PATH / str(dataset_path)
+
+    def path_exists_mock(path):
+        return False
+    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+
+    def requests_get_mock(path):
+        status_code_mock = mock.Mock()
+        if (expected / "metadata.yaml" == path):
+            status_code_mock.status_code = 200
+            return status_code_mock
+        else:
+            status_code_mock.status_code = 'wrong url'
+            return status_code_mock
+    monkeypatch.setattr(requests, 'get', requests_get_mock)
+
+    actual = _guess_location(dataset_path = dataset_path, local_repo=False)
 
     assert expected == actual
 
