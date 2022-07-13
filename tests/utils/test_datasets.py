@@ -1,9 +1,11 @@
+import urllib.request
 from pathlib import Path
 from unittest import mock
 
 import pytest
 import requests
 from genomic_benchmarks.utils.datasets import (
+    _download_url,
     _get_dataset_name,
     _get_reference_name,
     _guess_location,
@@ -173,3 +175,35 @@ def test__rev_returns_identity_for_empty_string_without_strand():
     actual = _rev(seq = expected, strand = None)
 
     assert expected == actual
+
+
+def test__download_url_calls_urlretrieve_correctly(monkeypatch):
+    # urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
+    url = 'http://www.example.com/'
+    dest = 'dummy_dest'
+
+    path_exists_mock = mock.Mock(return_value=False)
+    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+
+    urlretrieve_mock = mock.MagicMock()
+    monkeypatch.setattr(urllib.request, 'urlretrieve', urlretrieve_mock)
+
+    _download_url(url, dest)
+
+    urlretrieve_mock.assert_called_with(url, filename = dest, reporthook = mock.ANY)
+
+
+def test__download_url_calls_unlink_for_existing_path(monkeypatch):
+    # urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
+    url = 'http://www.example.com/'
+    dest = 'dummy_dest'
+
+    path_exists_mock = mock.Mock(return_value=True)
+    monkeypatch.setattr(Path, 'exists', path_exists_mock)
+
+    unlink_mock = mock.MagicMock()
+    monkeypatch.setattr(Path, 'unlink', unlink_mock)
+
+    _download_url(url, dest)
+
+    unlink_mock.assert_called()
