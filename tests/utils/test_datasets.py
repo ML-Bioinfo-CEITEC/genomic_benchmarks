@@ -6,6 +6,7 @@ import pytest
 import requests
 from genomic_benchmarks.loc2seq.loc2seq import EXTRA_PREPROCESSING
 from genomic_benchmarks.utils.datasets import (
+    _check_dataset_existence,
     _download_url,
     _fastagz2dict,
     _get_dataset_name,
@@ -71,6 +72,30 @@ def test__guess_location_fails_for_None_path():
 def test__guess_location_fails_for_not_existing_dataset():
     with pytest.raises(FileNotFoundError):
         _guess_location(dataset_path = 'not_existing')
+
+
+def test__check_dataset_existence_fails_for_not_existing_path_and_local_repo():
+    with pytest.raises(FileNotFoundError):
+        _check_dataset_existence('not_existing', version=0, local_repo=True)
+
+
+def test__check_dataset_existence_fails_for_not_existing_metadata_and_local_repo():
+    with pytest.raises(FileNotFoundError):
+        _check_dataset_existence('', version=0, local_repo=True)
+
+
+# ToDo Add tests for _check_dataset_existence
+# def test__check_dataset_existence_calls_urlopen_correctly(monkeypatch):
+#     url = 'http://www.example.com/'
+#     expected =  url + "metadata.yaml"
+
+# # https://stackoverflow.com/questions/1289894/how-do-i-mock-an-open-used-in-a-with-statement-using-the-mock-framework-in-pyth
+#     # urlopen_mock = mock.MagicMock()
+#     monkeypatch.setattr(urllib.request, 'urlopen', urlopen_mock)
+
+#     _check_dataset_existence(url, version=0, local_repo=False)
+
+#     urlopen_mock.assert_called_with(expected)
 
 
 def test__get_dataset_name_returns_correct_string_from_path():
@@ -144,7 +169,6 @@ def test__get_reference_name_fails_for_None_input():
 
 
 def test__download_url_calls_urlretrieve_correctly(monkeypatch):
-    # urllib.request.urlretrieve(url, filename=dest, reporthook=t.update_to)
     url = 'http://www.example.com/'
     dest = 'dummy_dest'
 
