@@ -110,15 +110,15 @@ def test_remove_dataset_from_disk_calls_helper_methods_correctly(monkeypatch):
     version_argument = "version"
     _guess_location_mock = mock.MagicMock(return_value = interval_list_dataset_argument, spec=True)
     monkeypatch.setattr(
-        genomic_benchmarks.utils.datasets, '_guess_location', _guess_location_mock
+        genomic_benchmarks.loc2seq.loc2seq, '_guess_location', _guess_location_mock
     )
     _check_dataset_existence_mock = mock.MagicMock(spec=True)
     monkeypatch.setattr(
-        genomic_benchmarks.utils.datasets, '_check_dataset_existence', _check_dataset_existence_mock
+        genomic_benchmarks.loc2seq.loc2seq, '_check_dataset_existence', _check_dataset_existence_mock
     )
     _get_dataset_name_mock = mock.MagicMock(spec=True)
     monkeypatch.setattr(
-        genomic_benchmarks.utils.datasets, '_get_dataset_name', _get_dataset_name_mock
+        genomic_benchmarks.loc2seq.loc2seq, '_get_dataset_name', _get_dataset_name_mock
     )
 
     remove_dataset_from_disk(interval_list_dataset_argument, dest_path='', version=version_argument)
@@ -128,8 +128,8 @@ def test_remove_dataset_from_disk_calls_helper_methods_correctly(monkeypatch):
     _get_dataset_name_mock.assert_called_with(interval_list_dataset_argument)
 
 
-@mock.patch("genomic_benchmarks.utils.datasets._guess_location", mock.Mock())
-@mock.patch("genomic_benchmarks.utils.datasets._check_dataset_existence", mock.Mock())
+@mock.patch("genomic_benchmarks.loc2seq.loc2seq._guess_location", mock.Mock())
+@mock.patch("genomic_benchmarks.loc2seq.loc2seq._check_dataset_existence", mock.Mock())
 def test_remove_dataset_from_disk_removes_dataset(tmp_path, monkeypatch):
     dataset_name = 'dataset_name'
     dest_path = tmp_path / 'folder'
@@ -137,7 +137,7 @@ def test_remove_dataset_from_disk_removes_dataset(tmp_path, monkeypatch):
     path_should_not_exist.mkdir(parents=True, exist_ok=True)
     _get_dataset_name_mock = mock.MagicMock(return_value = dataset_name,spec=True)
     monkeypatch.setattr(
-        genomic_benchmarks.utils.datasets, '_get_dataset_name', _get_dataset_name_mock
+        genomic_benchmarks.loc2seq.loc2seq, '_get_dataset_name', _get_dataset_name_mock
     )
 
     remove_dataset_from_disk("interval_list_dataset", dest_path=dest_path)

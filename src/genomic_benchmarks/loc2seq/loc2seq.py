@@ -2,7 +2,7 @@ import re
 import shutil  # for removing and creating folders
 from pathlib import Path
 
-import genomic_benchmarks.utils.datasets as datasets
+# import genomic_benchmarks.utils.datasets as datasets
 import pandas as pd
 from genomic_benchmarks.utils.datasets import (
     _check_dataset_existence,
@@ -158,9 +158,9 @@ def remove_dataset_from_disk(interval_list_dataset, version=None, dest_path=CACH
                     version (int): Version of the dataset.
                     dest_path (str or Path): Folder to store the full-seq dataset.
     """
-    interval_list_dataset = datasets._guess_location(interval_list_dataset)
-    metadata = datasets._check_dataset_existence(interval_list_dataset, version)
-    dataset_name = datasets._get_dataset_name(interval_list_dataset)
+    interval_list_dataset = _guess_location(interval_list_dataset)
+    metadata = _check_dataset_existence(interval_list_dataset, version)
+    dataset_name = _get_dataset_name(interval_list_dataset)
 
     path = Path(dest_path) / dataset_name
     if path.exists():
