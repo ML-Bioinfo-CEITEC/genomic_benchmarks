@@ -2,6 +2,7 @@ import re
 import shutil  # for removing and creating folders
 from pathlib import Path
 
+# import genomic_benchmarks.utils.datasets as datasets
 import pandas as pd
 from genomic_benchmarks.utils.datasets import (
     _check_dataset_existence,
