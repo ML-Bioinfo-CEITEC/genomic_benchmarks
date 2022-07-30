@@ -14,6 +14,13 @@ To run all tests
     pytest -v tests/
 ```
 
+To deselect/select tests by markers use the -m option, it supports the boolean `not`,
+f.e. to deselect tests marked as `slow` use
+
+```bash
+    pytest -v tests/ -m "not slow"
+```
+
 To get a test coverage
 ```bash
     pytest --cov=src/genomic_benchmarks/ tests/ 
