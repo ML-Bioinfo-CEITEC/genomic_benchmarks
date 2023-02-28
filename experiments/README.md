@@ -48,21 +48,27 @@ bash utils/run_all_tf_experiments.sh
 
 | Dataset                          |   Accuracy |   F1 score |
 |:---------------------------------|-----------:|-----------:|
-| demo_coding_vs_intergenomic_seqs |       86.6 |       85.5 |
-| demo_human_or_worm               |       92.7 |       92.5 |
-| dummy_mouse_enhancers_ensembl             |       76.4 |       71.6 |
-| human_enhancers_cohn             |       69.5 |       65.4 |
-| human_enhancers_ensembl          |       81.5 |       80.5 |
-| human_nontata_promoters          |       83   |       81.3 |
+| demo_coding_vs_intergenomic_seqs |       87.6 |       86.8 |
+| demo_human_or_worm               |       93   |       92.8 |
+| drosophila_enhancers_stark       |       58.6 |       44.5 |
+| dummy_mouse_enhancers_ensembl    |       69   |       70.4 |
+| human_enhancers_cohn             |       69.5 |       67.1 |
+| human_enhancers_ensembl          |       68.9 |       56.5 |
+| human_ensembl_regulatory         |       93.3 |       93.3 |
+| human_nontata_promoters          |       84.6 |       83.7 |
+| human_ocr_ensembl                |       68   |       66.1 |
 
 
 ### TensorFlow CNN
 
 | Dataset                          |   Loss |   Accuracy |   F1 |
 |:---------------------------------|-------:|-----------:|-----:|
-| demo_coding_vs_intergenomic_seqs |  0.264 |       89.5 | 89.3 |
-| demo_human_or_worm               |  0.168 |       93.5 | 91.7 |
-| dummy_mouse_enhancers_ensembl             |  0.614 |       73.6 | 21.7 |
-| human_enhancers_cohn             |  0.763 |       66.6 | 74.3 |
-| human_enhancers_ensembl          |  0.428 |       80.9 | 80.2 |
-| human_nontata_promoters          |  0.513 |       79.5 | 73.3 |
+| demo_coding_vs_intergenomic_seqs |  0.258 |       89.6 | 89.4 |
+| demo_human_or_worm               |  0.148 |       94.2 | 93.2 |
+| drosophila_enhancers_stark       |  0.959 |       52.4 | 69.1 |
+| dummy_mouse_enhancers_ensembl    |  0.919 |       50   | 66.9 |
+| human_enhancers_cohn             |  0.589 |       68.9 | 71.3 |
+| human_enhancers_ensembl          |  0.421 |       81.1 | 74.6 |
+| human_ensembl_regulatory         |  0.505 |       79.3 | 79.3 |
+| human_nontata_promoters          |  0.319 |       86.5 | 84.4 |
+| human_ocr_ensembl                |  0.585 |       68.8 | 72   |
