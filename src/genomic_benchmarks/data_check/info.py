@@ -2,23 +2,25 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import requests
 from genomic_benchmarks.loc2seq.cloud_caching import CLOUD_CACHE
 from genomic_benchmarks.utils.datasets import (
     _check_dataset_existence,
     _get_dataset_name,
     _guess_location,
 )
-from genomic_benchmarks.utils.paths import CACHE_PATH, DATASET_DIR_PATH
+from genomic_benchmarks.utils.paths import CACHE_PATH, DATASET_DIR_PATH, DATASET_URL_PATH
 
 # TODO: Many of these functions are not prepared for the case when the folder in DATASET_DIR_PATH is not one benchmark but a set of benchmarks.
 
 
-def info(interval_list_dataset, version=None, local_repo: bool = False):
+def info(interval_list_dataset, version=None, local_repo: bool = False, description: bool = False):
     """
     Print info about the bechmark.
 
             Parameters:
                     interval_list_dataset (str or Path): Either a path or a name of dataset included in this package.
+                    description (bool): option to turn on or off the detailed description of dataset
 
             Returns:
                     DataFrame with counts of seqeunces for each class in a training and testing sets.
@@ -27,6 +29,15 @@ def info(interval_list_dataset, version=None, local_repo: bool = False):
     interval_list_dataset = _guess_location(interval_list_dataset, local_repo)
     metadata = _check_dataset_existence(interval_list_dataset, version, local_repo)
     dataset_name = _get_dataset_name(interval_list_dataset)
+
+    if description:
+        docs_path = DATASET_URL_PATH / ".." / "docs" / dataset_name / "README.md"
+        response = requests.get(docs_path)
+        if (response.status_code):
+            data = response.text
+            for line in enumerate(data.split('\n')):
+                print(line[1])
+            print('\n')
 
     dfs = {}
     for c in metadata["classes"]:
