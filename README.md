@@ -99,6 +99,9 @@ Getting Pytorch Dataset and displaying samples is also easy:
 ```
 See [How_To_Train_CNN_Classifier_With_Pytorch.ipynb](notebooks/How_To_Train_CNN_Classifier_With_Pytorch.ipynb) for more detailed description how to train CNN classifier with Pytorch.
 
+## Hugging Face
+
+If you are used to using Hugging Face dataset, you can use this option to access Genomic Benchmarks. See [How_To_Use_Datasets_From_HF.ipynb](notebooks/How_To_Use_Datasets_From_HF.ipynb) for a guide.
 
 ## Structure of package
 
