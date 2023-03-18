@@ -101,6 +101,8 @@ See [How_To_Train_CNN_Classifier_With_Pytorch.ipynb](notebooks/How_To_Train_CNN_
 
 ## Hugging Face
 
+We also provide these benchmarks through HuggingFace Hub: https://huggingface.co/katarinagresova
+
 If you are used to using Hugging Face dataset, you can use this option to access Genomic Benchmarks. See [How_To_Use_Datasets_From_HF.ipynb](notebooks/How_To_Use_Datasets_From_HF.ipynb) for a guide.
 
 ## Structure of package
