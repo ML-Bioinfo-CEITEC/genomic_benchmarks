@@ -138,17 +138,19 @@ If you use Genomic Benchmarks in your research, please cite it as follows.
 
 ### Text
 
-GRESOVA, Katarina, et al. Genomic Benchmarks: A Collection of Datasets for Genomic Sequence Classification. bioRxiv, 2022.
+Grešová, Katarína, et al. "Genomic benchmarks: a collection of datasets for genomic sequence classification." BMC Genomic Data 24.1 (2023): 25.
 
 ### BibTeX
 
 ```bib
-@article{gresova2022genomic,
-  title={Genomic Benchmarks: A Collection of Datasets for Genomic Sequence Classification},
-  author={Gresova, Katarina and Martinek, Vlastimil and Cechak, David and Simecek, Petr and Alexiou, Panagiotis},
-  journal={bioRxiv},
-  year={2022},
-  publisher={Cold Spring Harbor Laboratory},
-  url={https://www.biorxiv.org/content/10.1101/2022.06.08.495248}
+@article{grevsova2023genomic,
+  title={Genomic benchmarks: a collection of datasets for genomic sequence classification},
+  author={Gre{\v{s}}ov{\'a}, Katar{\'\i}na and Martinek, Vlastimil and {\v{C}}ech{\'a}k, David and {\v{S}}ime{\v{c}}ek, Petr and Alexiou, Panagiotis},
+  journal={BMC Genomic Data},
+  volume={24},
+  number={1},
+  pages={25},
+  year={2023},
+  publisher={Springer}
 }
 ```
