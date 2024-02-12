@@ -1,6 +1,6 @@
 # Experiments
 
-In this folder, we collect experimental runs of models included in `genomic_benchmarks.models` module for benchmark datasets.  
+In this folder, we collect experimental runs of models included in `genomic_benchmarks.models` module for benchmark datasets. Current SOTA is [HyenaDNA](#hyenadna), descriped into details at [https://github.com/HazyResearch/hyena-dna](https://github.com/HazyResearch/hyena-dna).
 
 Each run is recorded as a notebook. Currently, TensorFlow experiments are run with [papermill](https://github.com/nteract/papermill), PyTorch experiments are run manually.
 
@@ -43,6 +43,21 @@ bash utils/run_all_tf_experiments.sh
   * run experiments using papermill for all benchmark datasets
 
 ## Results
+
+### HyenaDNA
+
+| Dataset                          |   Accuracy  |
+|:---------------------------------|------------:|
+| demo_coding_vs_intergenomic_seqs |       91.3  |
+| demo_human_or_worm               |       96.6  |
+| drosophila_enhancers_stark       |       58.6  |
+| dummy_mouse_enhancers_ensembl    |       85.1  |
+| human_enhancers_cohn             |       74.2  |
+| human_enhancers_ensembl          |       89.2  |
+| human_ensembl_regulatory         |       93.8  |
+| human_nontata_promoters          |       96.6  |
+| human_ocr_ensembl                |       80.9  |
+
 
 ### PyTorch CNN
 
