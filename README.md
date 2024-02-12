@@ -2,7 +2,9 @@
 
 # Genomic Benchmarks 🧬🏋️✔️
 
-In this repository, we collect benchmarks for classification of genomic sequences. It is shipped as a Python package, together with functions helping to download & manipulate datasets and train NN models. 
+In this repository, we collect benchmarks for classification of genomic sequences. It is shipped as a Python package, together with functions helping to download & manipulate datasets and train NN models. Current SOTA model on genomic benchmarks is [HyenaDNA](https://github.com/HazyResearch/hyena-dna), see metrics in the [experiments](experiments/README.md#hyenadna) folder.
+
+
 ## Install
 
 Genomic Benchmarks can be installed as follows:
