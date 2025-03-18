@@ -50,7 +50,6 @@ bash utils/run_all_tf_experiments.sh
 |:---------------------------------|------------:|
 | demo_coding_vs_intergenomic_seqs |       91.3  |
 | demo_human_or_worm               |       96.6  |
-| drosophila_enhancers_stark       |       58.6  |
 | dummy_mouse_enhancers_ensembl    |       85.1  |
 | human_enhancers_cohn             |       74.2  |
 | human_enhancers_ensembl          |       89.2  |
